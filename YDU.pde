@@ -8,11 +8,11 @@ int state;
 
 Ship player;
 
+ArrayList<Enemy>[] enemies; //0-Balloon, 1-Asteroid
+
 int coins;
 int score;
 int highscore;
-
-int decFuel;
 
 PImage rocket;
 PImage rocketL;
@@ -21,8 +21,13 @@ PImage coin;
 PImage cloud;
 PImage bird1, bird2;
 PImage balloon;
+PImage asteroid1, asteroid2;
 
 PFont font;
+
+int decFuel;
+
+int invin;
 
 PrintWriter output;
 
@@ -38,6 +43,8 @@ void setup(){
   player = new Ship();
   
   parseData();
+  
+  enemies = (ArrayList<Enemy>[])new ArrayList[2];
   
   font = loadFont("VCROSDMono-200.vlw");
   textFont(font);
@@ -58,11 +65,24 @@ void setup(){
   bird2.resize(YSIZE/6,YSIZE/10);
   balloon = loadImage("HotAirBalloon2.png");
   balloon.resize(YSIZE/6,YSIZE/6);
+  asteroid1 = loadImage("Asteroid1.png");
+  asteroid1.resize(YSIZE/6,YSIZE/6);
+  asteroid2 = loadImage("Asteroid2.png");
+  asteroid2.resize(YSIZE/6,YSIZE/6);
+  
+  for(int i = 0; i < enemies.length; i ++){
+    enemies[i] = new ArrayList<Enemy>();
+  }
 }
 
 void setup2(){
   player.fuel = 1000;
   score = 0;
+  
+  for(int i = 0; i < enemies.length; i ++){
+    enemies[i] = new ArrayList<Enemy>();
+  }
+  
   state = 10;
 }
 
@@ -82,18 +102,12 @@ void draw(){
       break;
     
     case 10: //main game
-      background(#B2F0FF);
-      image(cloud,XSIZE/6, YSIZE/8);
-      image(cloud, XSIZE/4, YSIZE/6);
-      image(cloud, XSIZE/2, YSIZE/3);
-      image(cloud, XSIZE*2/3, YSIZE/4);
+      buildBackground();
       
-      image(bird1,XSIZE/3, YSIZE/2);
-      image(bird2,XSIZE/3 + XSIZE/25, YSIZE/2 - 20);
-      image(bird1,XSIZE/3 + XSIZE*2/25, YSIZE/2 - 40);
-      image(bird1,XSIZE/3 - XSIZE/25, YSIZE/2 - 20);
-      image(bird1,XSIZE*4/5, YSIZE*2/5);
       decFuel = 0;
+      
+      if(player.hit && invin < millis())
+        player.hit = false;
       
       player.display();  
       
@@ -104,8 +118,12 @@ void draw(){
         player.dir = 0;
       }
       
-      decFuel();
       stats();
+      
+      decFuel();
+      
+      checkHits();
+      
       checkScore();
       checkDeath();
       break;
@@ -135,6 +153,20 @@ void draw(){
   }
 }
 
+void buildBackground(){
+  background(#B2F0FF);
+  image(cloud,XSIZE/6, YSIZE/8);
+  image(cloud, XSIZE/4, YSIZE/6);
+  image(cloud, XSIZE/2, YSIZE/3);
+  image(cloud, XSIZE*2/3, YSIZE/4);
+  
+  image(bird1,XSIZE/3, YSIZE/2);
+  image(bird2,XSIZE/3 + XSIZE/25, YSIZE/2 - 20);
+  image(bird1,XSIZE/3 + XSIZE*2/25, YSIZE/2 - 40);
+  image(bird1,XSIZE/3 - XSIZE/25, YSIZE/2 - 20);
+  image(bird1,XSIZE*4/5, YSIZE*2/5);
+}
+
 void keyPressed(){
   if(keyCode == RIGHT)
     player.right();
@@ -157,6 +189,17 @@ void decFuel(){
   player.fuel -= decFuel;
   if(frameCount%2 == 0)
     player.fuel -= 1;
+}
+
+void checkHits(){
+  for(int i = 0; i < enemies.length; i++)
+    if (enemies[i].size() > 0)
+      for(Enemy e : enemies[i])
+        if(e.collide()){
+          decFuel += e.val();
+          invin = millis() + 1000;
+          player.hit = true;
+        }
 }
 
 void checkScore(){

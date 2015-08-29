@@ -19,6 +19,7 @@ PImage rocketL;
 PImage rocketR;
 PImage coin;
 PImage cloud;
+PImage bird;
 
 PFont font;
 
@@ -50,6 +51,7 @@ void setup(){
   coin.resize(YSIZE/10,YSIZE/10);
   cloud = loadImage("cloud.png");
   cloud.resize(YSIZE/10,YSIZE/10);
+  bird = loadImage("bird1.png");
 }
 
 void setup2(){

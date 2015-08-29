@@ -35,8 +35,8 @@ void setup(){
   //orientation(PORTRAIT);
   //XSIZE = displayWidth;
   //YSIZE = displayHeight;
-  XSIZE = 720; //comment this when using on android
-  YSIZE = 1280;
+  XSIZE = 500; //comment this when using on android
+  YSIZE = 800;
   size(XSIZE,YSIZE);
   frameRate(60);
   
@@ -59,9 +59,9 @@ void setup(){
   coin.resize(YSIZE/10,YSIZE/10);
   cloud = loadImage("cloud.png");
   cloud.resize(YSIZE/10,YSIZE/10);
-  bird1 = loadImage("bird1.png");
+  bird1 = loadImage("Bird1.png");
   bird1.resize(YSIZE/6,YSIZE/10);
-  bird2 = loadImage("bird2.png");
+  bird2 = loadImage("Bird2.png");
   bird2.resize(YSIZE/6,YSIZE/10);
   balloon = loadImage("HotAirBalloon2.png");
   balloon.resize(YSIZE/6,YSIZE/6);

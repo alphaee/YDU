@@ -3,12 +3,13 @@ class Ship{
   int xCor,yCor;
   int lWidth,rWidth;
   int dir; //0 = not moving, 1 = left, 2 = right
+  boolean hit;
   
   Ship(){
     xCor = XSIZE/2;
     yCor = YSIZE*3/4;
-    lWidth = YSIZE/32;
-    rWidth = YSIZE/8;
+    lWidth = YSIZE/8;
+    rWidth = YSIZE/32;
     fuel = 1000;
     dir = 0;
   }
@@ -25,6 +26,17 @@ class Ship{
   
   void display(){
     imageMode(CENTER);
+    if(hit && frameCount%2 == 0){
+      if(dir == 0){
+        image(rocket,xCor,yCor);
+      }
+      else if(dir == 1){
+        image(rocketL,xCor,yCor);
+      }
+      else{
+        image(rocketR,xCor,yCor);
+      }
+    }
     if(dir == 0){
       image(rocket,xCor,yCor);
     }

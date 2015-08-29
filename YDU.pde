@@ -19,7 +19,8 @@ PImage rocketL;
 PImage rocketR;
 PImage coin;
 PImage cloud;
-PImage bird;
+PImage bird1, bird2;
+PImage balloon;
 
 PFont font;
 
@@ -41,7 +42,7 @@ void setup(){
   font = loadFont("VCROSDMono-200.vlw");
   textFont(font);
   
-  rocket = loadImage("rocket.png");
+  rocket = loadImage("rocket-middle-flame.png");
   rocket.resize(YSIZE/4,YSIZE/4);
   rocketL = loadImage("rocket-left-flame.png");
   rocketL.resize(YSIZE/4,YSIZE/4);
@@ -51,7 +52,12 @@ void setup(){
   coin.resize(YSIZE/10,YSIZE/10);
   cloud = loadImage("cloud.png");
   cloud.resize(YSIZE/10,YSIZE/10);
-  bird = loadImage("bird1.png");
+  bird1 = loadImage("bird1.png");
+  bird1.resize(YSIZE/6,YSIZE/10);
+  bird2 = loadImage("bird2.png");
+  bird2.resize(YSIZE/6,YSIZE/10);
+  balloon = loadImage("HotAirBalloon2.png");
+  balloon.resize(YSIZE/6,YSIZE/6);
 }
 
 void setup2(){
@@ -82,6 +88,11 @@ void draw(){
       image(cloud, XSIZE/2, YSIZE/3);
       image(cloud, XSIZE*2/3, YSIZE/4);
       
+      image(bird1,XSIZE/3, YSIZE/2);
+      image(bird2,XSIZE/3 + XSIZE/25, YSIZE/2 - 20);
+      image(bird1,XSIZE/3 + XSIZE*2/25, YSIZE/2 - 40);
+      image(bird1,XSIZE/3 - XSIZE/25, YSIZE/2 - 20);
+      image(bird1,XSIZE*4/5, YSIZE*2/5);
       decFuel = 0;
       
       player.display();  
@@ -106,8 +117,8 @@ void draw(){
     text("UPGRADES", XSIZE/2, YSIZE/15);
     textSize(XSIZE/20);
     textAlign(LEFT,CENTER);
-    text("Best Distance:" + highscore + "m", YSIZE/30, YSIZE/11 + YSIZE/20);
-    text("Your Distance:" + score + "m", YSIZE/30, YSIZE/11 + YSIZE/12);
+    text("Best Distance:" + highscore/10. + "km", YSIZE/30, YSIZE/11 + YSIZE/20);
+    text("Your Distance:" + score/10. + "km", YSIZE/30, YSIZE/11 + YSIZE/12);
     imageMode(CENTER);
     image(coin, YSIZE/22, YSIZE/7 + YSIZE/11);
     text(":" + coins, YSIZE/17, YSIZE/7 + YSIZE*2/20 + 3);
@@ -133,11 +144,11 @@ void keyPressed(){
 
 void detect(){
   if(mouseX < XSIZE/2){
-    player.dir = 1;
+    player.dir = 2;
     player.left();
   }
   else{  
-    player.dir = 2;
+    player.dir = 1;
     player.right();
   }
 }
@@ -149,7 +160,7 @@ void decFuel(){
 }
 
 void checkScore(){
-  if(frameCount%3 == 0)
+  if(frameCount%4 == 0)
     score++;
 }
 
@@ -165,8 +176,10 @@ void checkDeath(){
 void stats(){
   textSize(XSIZE/20);
   fill(50);
-  text("Fuel:" + player.fuel/10. + "%", XSIZE/5, YSIZE/20);
-  text("Height:" + score + "m", XSIZE*4/5, YSIZE/20);
+  textAlign(LEFT);
+  text("Fuel:" + player.fuel/10. + "%", XSIZE/30, YSIZE/20);
+  textAlign(RIGHT);
+  text("Height:" + score/10. + "km", XSIZE*29/30, YSIZE/20);
 }
 
 void parseData(){

@@ -14,7 +14,11 @@ int highscore;
 
 int decFuel;
 
+PImage rocket;
+PImage rocketL;
+PImage rocketR;
 PImage coin;
+PImage cloud;
 
 PFont font;
 
@@ -36,10 +40,16 @@ void setup(){
   font = loadFont("VCROSDMono-200.vlw");
   textFont(font);
   
+  rocket = loadImage("rocket.png");
+  rocket.resize(YSIZE/4,YSIZE/4);
+  rocketL = loadImage("rocket-left-flame.png");
+  rocketL.resize(YSIZE/4,YSIZE/4);
+  rocketR = loadImage("rocket-right-flame.png");
+  rocketR.resize(YSIZE/4,YSIZE/4);
   coin = loadImage("coin.png");
   coin.resize(YSIZE/10,YSIZE/10);
-  
-  state = 20;
+  cloud = loadImage("cloud.png");
+  cloud.resize(YSIZE/10,YSIZE/10);
 }
 
 void setup2(){
@@ -65,6 +75,10 @@ void draw(){
     
     case 10: //main game
       background(#B2F0FF);
+      image(cloud,XSIZE/6, YSIZE/8);
+      image(cloud, XSIZE/4, YSIZE/6);
+      image(cloud, XSIZE/2, YSIZE/3);
+      image(cloud, XSIZE*2/3, YSIZE/4);
       
       decFuel = 0;
       
@@ -72,6 +86,9 @@ void draw(){
       
       if(mousePressed){
         detect();
+      }
+      else{
+        player.dir = 0;
       }
       
       decFuel();
@@ -81,6 +98,7 @@ void draw(){
       break;
       
   case 20: //upgrade screen
+    fill(255);
     background(0);
     textSize(XSIZE/9);
     text("UPGRADES", XSIZE/2, YSIZE/15);
@@ -94,7 +112,6 @@ void draw(){
     textSize(XSIZE/10);
     textAlign(CENTER,CENTER);
     stroke(255);
-    line(0,YSIZE*2/3,XSIZE,YSIZE*2/3);
     text("RETRY", XSIZE/2, YSIZE*3/4);
     if(mousePressed){
       if(mouseY > YSIZE*2/3){
@@ -114,9 +131,11 @@ void keyPressed(){
 
 void detect(){
   if(mouseX < XSIZE/2){
+    player.dir = 1;
     player.left();
   }
-  else{
+  else{  
+    player.dir = 2;
     player.right();
   }
 }
@@ -143,6 +162,7 @@ void checkDeath(){
 
 void stats(){
   textSize(XSIZE/20);
+  fill(50);
   text("Fuel:" + player.fuel/10. + "%", XSIZE/5, YSIZE/20);
   text("Height:" + score + "m", XSIZE*4/5, YSIZE/20);
 }

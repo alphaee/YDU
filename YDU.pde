@@ -14,6 +14,8 @@ int highscore;
 
 int decFuel;
 
+PImage coin;
+
 PFont font;
 
 PrintWriter output;
@@ -33,11 +35,17 @@ void setup(){
   
   font = loadFont("VCROSDMono-200.vlw");
   textFont(font);
+  
+  coin = loadImage("coin.png");
+  coin.resize(YSIZE/10,YSIZE/10);
+  
+  state = 20;
 }
 
 void setup2(){
   player.fuel = 1000;
   score = 0;
+  state = 10;
 }
 
 void draw(){
@@ -72,14 +80,28 @@ void draw(){
       checkDeath();
       break;
       
-  case 20: //game over
+  case 20: //upgrade screen
     background(0);
+    textSize(XSIZE/9);
+    text("UPGRADES", XSIZE/2, YSIZE/15);
+    textSize(XSIZE/20);
+    textAlign(LEFT,CENTER);
+    text("Best Distance:" + highscore + "m", YSIZE/30, YSIZE/11 + YSIZE/20);
+    text("Your Distance:" + score + "m", YSIZE/30, YSIZE/11 + YSIZE/12);
+    imageMode(CENTER);
+    image(coin, YSIZE/22, YSIZE/7 + YSIZE/11);
+    text(":" + coins, YSIZE/17, YSIZE/7 + YSIZE*2/20 + 3);
+    textSize(XSIZE/10);
+    textAlign(CENTER,CENTER);
+    stroke(255);
+    line(0,YSIZE*2/3,XSIZE,YSIZE*2/3);
+    text("RETRY", XSIZE/2, YSIZE*3/4);
     if(mousePressed){
-      setup2();
-      state = 10;
+      if(mouseY > YSIZE*2/3){
+        setup2();
+      }
     }
     break;
-    
   }
 }
 

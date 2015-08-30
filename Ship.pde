@@ -6,11 +6,11 @@ class Ship{
   boolean hit;
   
   Ship(){
-    xCor = XSIZE/2;
-    yCor = YSIZE*4/5;
-    
     sWidth = YSIZE/4*145/600;
     sHeight = YSIZE/4*311/600;
+    
+    xCor = XSIZE/2 - 2*YSIZE/4*145/600*11/10;
+    yCor = YSIZE*4/5;
     
     fuel = 1000;
     dir = 0;

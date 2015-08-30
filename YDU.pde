@@ -50,10 +50,10 @@ boolean start;
 PrintWriter output;
 
 void setup() {
-//  orientation(PORTRAIT);
-//    XSIZE = displayWidth;
-//    YSIZE = displayHeight;
-//    size(displayWidth, displayHeight);
+  // orientation(PORTRAIT);
+   // XSIZE = displayWidth;
+   // YSIZE = displayHeight;
+   // size(displayWidth, displayHeight);
    XSIZE = 400; //comment this when using on android
    YSIZE = 600;
    size(XSIZE, YSIZE);
@@ -67,6 +67,7 @@ void setup() {
 
   font = loadFont("VCROSDMono-200.vlw");
   textFont(font);
+
   
   rocket0 = loadImage("shuttle-middle-flame.png");
   rocket0.resize(YSIZE/4, YSIZE/4);
@@ -122,7 +123,7 @@ void setup() {
   for (int i = 0; i < enemies.length; i ++) {
     enemies[i] = new ArrayList<Enemy>();
   }
-  
+   
   if(sLevel == 0){
     rocket = rocket0;
     rocketL = rocket0L;
@@ -138,7 +139,7 @@ void setup() {
     rocketL = rocket2L;
     rocketR = rocket2R;
   }
-  
+
   // for (int j = 0; j < 5; j ++) {
   //   Balloon temp = new Balloon();
   //   enemies[0].add(temp);
@@ -147,7 +148,8 @@ void setup() {
   //   enemies[1].add(temp2);
   // }
   start = true;
-  state = 20;
+  startMillis = millis();
+  state = 10;
 }
 
 void setup2() {//RESTART
@@ -168,6 +170,7 @@ void setup2() {//RESTART
 
   state = 10;
   start = true;
+  startMillis = millis();
 }
 
 void draw() {
@@ -227,7 +230,7 @@ void draw() {
     fill(255);
     background(0);
     textSize(XSIZE/9);
-    textAlign(CENTER,CENTER);
+    textAlign(CENTER, CENTER);
     text("UPGRADES", XSIZE/2, YSIZE/15);
     textSize(XSIZE/20);
     textAlign(LEFT, CENTER);
@@ -236,12 +239,11 @@ void draw() {
     imageMode(CENTER);
     image(coin, YSIZE/22, YSIZE/8 + YSIZE/11);
     text(":" + coins, YSIZE/17, YSIZE/8 + YSIZE*2/20 - 5);
-    
     textSize(XSIZE/10);
     textAlign(CENTER, CENTER);
     stroke(255);
     text("RETRY", XSIZE/2, YSIZE*6/7);
-    
+
     textSize(XSIZE/20);
     textAlign(LEFT,CENTER);
     
@@ -299,9 +301,30 @@ void draw() {
   }
 }
 
+void countdown(int t) {
+  fill(180);
+  textAlign(CENTER, CENTER);
+  textSize(displayHeight/9);
+  if (millis() - t < 1500)
+    text("3", XSIZE/2, YSIZE/2+displayHeight/10);
+  else if (millis() - t < 2500)
+    text("2", XSIZE/2, YSIZE/2+displayHeight/10);
+  else if (millis() - t < 3500)
+    text("1", XSIZE/2, YSIZE/2+displayHeight/10);
+  else
+    start = false;
+}
 
 void buildBackground() {
-  background(178-score*178/1000, 240-score*240/1000, 255-score*255/1000);
+  if (score < 500){
+    background(178, 240-score*120/1000, 255);
+  }
+  else if(score < 750){
+    background(178+(score-500)*178/1000, 180-(score-500)*120/1000, 255);
+  }
+  else{
+    background(222.5-(score-750)*222.5/1000, 150-(score-750)*150/1000,255-(score-750)*255/1000);
+  }
   // setGradient(0, 0, XSIZE,1000, 0, #B2F0FF);
   image(cloud, XSIZE/6, YSIZE/8);
   image(cloud, XSIZE/4, YSIZE/6);
@@ -315,15 +338,15 @@ void buildBackground() {
   image(bird1, XSIZE*4/5, YSIZE*2/5);
 }
 
-void setGradient(int x, int y, float w, float h, color c1, color c2) {
-  noFill();
-  for (int i = y; i <= y+h; i++) {
-    float inter = map(i, y, y+h, 0, 1);
-    color c = lerpColor(c1, c2, inter);
-    stroke(c);
-    line(x, i, x+w, i);
-  }
-}
+// void setGradient(int x, int y, float w, float h, color c1, color c2) {
+//   noFill();
+//   for (int i = y; i <= y+h; i++) {
+//     float inter = map(i, y, y+h, 0, 1);
+//     color c = lerpColor(c1, c2, inter);
+//     stroke(c);
+//     line(x, i, x+w, i);
+//   }
+// }
 
 void keyPressed() {
   if (keyCode == RIGHT)
@@ -423,7 +446,9 @@ void stats() {
     fill(#EA1509);
   textAlign(LEFT);
   text("Fuel:" + player.fuel/10. + "%", XSIZE/30, YSIZE/20);
-}
+  textAlign(RIGHT);
+  text("Height:" + score/10. + "km", XSIZE*29/30, YSIZE/20);
+  }
 
 void updateCoins(){
   coins += score;

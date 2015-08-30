@@ -8,7 +8,7 @@ int state;
 
 Ship player;
 
-ArrayList<Enemy>[] enemies; //0-Balloon, 1-Asteroid
+ArrayList<Enemy>[] enemies; //0-balloon1, 1-Asteroid
 
 int coins;
 int score;
@@ -32,8 +32,8 @@ PImage rocket2L;
 PImage rocket2R;
 PImage coin;
 PImage cloud;
-PImage bird1, bird2;
-PImage balloon;
+PImage bird1;
+PImage balloon0, balloon1;
 PImage asteroid1, asteroid2;
 PImage meteor;
 
@@ -67,7 +67,6 @@ void setup() {
 
   font = loadFont("VCROSDMono-200.vlw");
   textFont(font);
-
   
   rocket0 = loadImage("shuttle-middle-flame.png");
   rocket0.resize(YSIZE/4, YSIZE/4);
@@ -104,18 +103,15 @@ void setup() {
 
   bird1 = loadImage("bird1.png");
   bird1.resize(YSIZE/6, YSIZE/10);
-
-  bird2 = loadImage("bird2.png");
-  bird2.resize(YSIZE/6, YSIZE/10);
-
-  balloon = loadImage("HotAirBalloon2.png");
-  balloon.resize(YSIZE/6, YSIZE/6);
+  
+  balloon0 = loadImage("HotAirBalloon3.png");
+  balloon0.resize(YSIZE/6,YSIZE/6);
+  
+  balloon1 = loadImage("HotAirBalloon2.png");
+  balloon1.resize(YSIZE/6, YSIZE/6);
 
   asteroid1 = loadImage("Asteroid1.png");
   asteroid1.resize(YSIZE/8, YSIZE/8);
-
-  asteroid2 = loadImage("Asteroid2.png");
-  asteroid2.resize(YSIZE/8, YSIZE/8);
 
   meteor = loadImage("Meteor.png");
   meteor.resize(YSIZE/2, YSIZE/2);
@@ -141,15 +137,14 @@ void setup() {
   }
 
   // for (int j = 0; j < 5; j ++) {
-  //   Balloon temp = new Balloon();
+  //   balloon1 temp = new balloon1();
   //   enemies[0].add(temp);
 
   //   Asteroid temp2 = new Asteroid();
   //   enemies[1].add(temp2);
   // }
   start = true;
-  startMillis = millis();
-  state = 10;
+  state = 00;
 }
 
 void setup2() {//RESTART
@@ -161,7 +156,7 @@ void setup2() {//RESTART
   }
 
   // for (int j = 0; j < 5; j ++) {
-  //   Balloon temp = new Balloon();
+  //   balloon1 temp = new balloon1();
   //   enemies[0].add(temp);
 
   //   Asteroid temp2 = new Asteroid();
@@ -182,10 +177,13 @@ void draw() {
     textAlign(CENTER, CENTER);
     text("To Infinity...", XSIZE/2, YSIZE/10); 
     textSize(XSIZE/7);
-    text("START", XSIZE/2, YSIZE*5/6);
+    text("LAUNCH", XSIZE/2, YSIZE*5/6);
     imageMode(CENTER);
+    textSize(YSIZE/40);
+    text("YK, DK, FW", XSIZE/6, YSIZE * 29/30);
     image(meteor, XSIZE/2, YSIZE*7/18);
     if (mousePressed) {
+      startMillis = millis();
       state = 10;
     }
     break;
@@ -199,10 +197,20 @@ void draw() {
       player.hit = false;
 
     player.display();  
+      
+    stats();
+    
     if(start){
       countdown(startMillis);
     }
     else{
+      if(millis() - startMillis < 4500){
+        fill(180);
+        textAlign(CENTER, CENTER);
+        textSize(displayHeight/9);
+        text("GO!", XSIZE/2, YSIZE/2-displayHeight/6);
+      }
+        
       if (mousePressed) {
         detect();
       } else {
@@ -210,8 +218,6 @@ void draw() {
       }
       
       spawnEnemies();
-      
-      stats();
   
       actAll();
   
@@ -242,57 +248,86 @@ void draw() {
     textSize(XSIZE/10);
     textAlign(CENTER, CENTER);
     stroke(255);
-    text("RETRY", XSIZE/2, YSIZE*6/7);
+    text("RELAUNCH", XSIZE/2, YSIZE*6/7 - YSIZE/30);
 
     textSize(XSIZE/20);
-    textAlign(LEFT,CENTER);
     
     PImage progress;
-    
+    textAlign(LEFT,CENTER);
     if(sLevel == 0){
       text("Thruster Upgrade: 1000", YSIZE/30, YSIZE/4 + YSIZE/30);
+      textAlign(RIGHT,CENTER);
+      if(coins >= 1000)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/12);
       progress = loadImage("progress-bar-1.png");
     }
     else if(sLevel == 1){
-      text("Thruster Upgrade: 2000", YSIZE/30, YSIZE/4 + YSIZE/30);
+      text("Thruster Upgrade: 2500", YSIZE/30, YSIZE/4 + YSIZE/30);
+      textAlign(RIGHT,CENTER);
+      if(coins >= 2000)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/12);
       progress = loadImage("progress-bar-2.png");
     }
     else{
-      text("Thruster Upgrade: 3000", YSIZE/30, YSIZE/4 + YSIZE/30);
+      text("Thruster Upgrade: ", YSIZE/30, YSIZE/4 + YSIZE/30);
+      textAlign(RIGHT,CENTER);
+      text("SOLD OUT", XSIZE - XSIZE/20, YSIZE/4 + YSIZE/12);
       progress = loadImage("progress-bar-3.png");
     }
     progress.resize(XSIZE*3/5, YSIZE/5);
     
     PImage hull;
-    
+    textAlign(LEFT,CENTER);
     if(hLevel == 0){
-      text("Hull Upgrade: 500", YSIZE/30, YSIZE/4 + YSIZE/6);
+      text("Hull Upgrade: 500", YSIZE/30, YSIZE/4 + YSIZE/6 + YSIZE/10);
+      textAlign(RIGHT,CENTER);
+      if(coins >= 500)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/10 + YSIZE/15);
       hull = loadImage("hull-bar-1.png");
     }
     else if(hLevel == 1){
-      text("Hull Upgrade: 1500", YSIZE/30, YSIZE/4 + YSIZE/6);
+      text("Hull Upgrade: 1250", YSIZE/30, YSIZE/4 + YSIZE/6 + YSIZE/10);
+      textAlign(RIGHT,CENTER);
+      if(coins >= 1250)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/10 + YSIZE/15);
       hull = loadImage("hull-bar-2.png");
     }
     else if(hLevel == 2){
-      text("Hull Upgrade: 2250", YSIZE/30, YSIZE/4 + YSIZE/6);
+      text("Hull Upgrade: 2000", YSIZE/30, YSIZE/4 + YSIZE/6 + YSIZE/10);
+      textAlign(RIGHT,CENTER);
+      if(coins >= 2000)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/10 + YSIZE/15);
       hull = loadImage("hull-bar-3.png");
     }
     else if(hLevel == 3){
-      text("Hull Upgrade: 3000", YSIZE/30, YSIZE/4 + YSIZE/6);
+      text("Hull Upgrade: 2750", YSIZE/30, YSIZE/4 + YSIZE/6 + YSIZE/10);
+      textAlign(RIGHT,CENTER);
+      if(coins >= 2750)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/10 + YSIZE/15);
       hull = loadImage("hull-bar-4.png");
     }
     else{
-      text("Hull Upgrade: 3500", YSIZE/30, YSIZE/4 + YSIZE/6);
+      text("Hull Upgrade: ", YSIZE/30, YSIZE/4 + YSIZE/6 + YSIZE/10);
+      textAlign(RIGHT,CENTER);
+      text("SOLD OUT", XSIZE - XSIZE/20, YSIZE/4 + YSIZE/6 + YSIZE/10 + YSIZE/15);
       hull = loadImage("hull-bar-5.png");
     }
     hull.resize(XSIZE*3/5, YSIZE/5);
     
     imageMode(CORNER);
     image(progress,YSIZE/30, YSIZE/4);
-    image(hull,YSIZE/30, YSIZE/3 + YSIZE/25);
+    image(hull,YSIZE/30, YSIZE/3 + YSIZE/10 + YSIZE/25);
     if (released&&mousePressed) {
-      if (mouseY > YSIZE*3/4) {
+      if (mouseY > YSIZE*2/3 + YSIZE/20) {
         setup2();
+      }
+      else if(mouseY > YSIZE/4 + YSIZE/5 && hLevel < 4 && coins >= (hLevel*750 + 500)){
+        coins -= hLevel*750 + 500;
+        hLevel++;
+      }
+      else if(mouseY > YSIZE/4 && sLevel<2 && coins >= (1000 + sLevel*1500)){
+        coins -= 1000 + sLevel*1500;
+        sLevel++;
       }
       released = false;
     }
@@ -306,11 +341,11 @@ void countdown(int t) {
   textAlign(CENTER, CENTER);
   textSize(displayHeight/9);
   if (millis() - t < 1500)
-    text("3", XSIZE/2, YSIZE/2+displayHeight/10);
+    text("3", XSIZE/2, YSIZE/2-displayHeight/6);
   else if (millis() - t < 2500)
-    text("2", XSIZE/2, YSIZE/2+displayHeight/10);
+    text("2", XSIZE/2, YSIZE/2-displayHeight/6);
   else if (millis() - t < 3500)
-    text("1", XSIZE/2, YSIZE/2+displayHeight/10);
+    text("1", XSIZE/2, YSIZE/2-displayHeight/6);
   else
     start = false;
 }
@@ -332,7 +367,7 @@ void buildBackground() {
   image(cloud, XSIZE*2/3, YSIZE/4);
 
   image(bird1, XSIZE/3, YSIZE/2);
-  image(bird2, XSIZE/3 + XSIZE/25, YSIZE/2 - 20);
+  image(bird1, XSIZE/3 + XSIZE/25, YSIZE/2 - 20);
   image(bird1, XSIZE/3 + XSIZE*2/25, YSIZE/2 - 40);
   image(bird1, XSIZE/3 - XSIZE/25, YSIZE/2 - 20);
   image(bird1, XSIZE*4/5, YSIZE*2/5);
@@ -392,7 +427,7 @@ void mousePressed() {
 
 void decFuel() {
   player.fuel -= decFuel;
-  if (frameCount%2 == 0 && random(10) < 8)
+  if (frameCount%2 == 0 && random(10) < (8 + 0.55*sLevel))
     player.fuel -= 1;
 }
 
@@ -415,7 +450,7 @@ void checkHits() {
 }
 
 void checkScore() {
-  if (frameCount%4 == 0)
+  if (frameCount%4 == 0 && random(10) < (9 + 0.5*sLevel))
     score++;
 }
 
@@ -446,8 +481,6 @@ void stats() {
     fill(#EA1509);
   textAlign(LEFT);
   text("Fuel:" + player.fuel/10. + "%", XSIZE/30, YSIZE/20);
-  textAlign(RIGHT);
-  text("Height:" + score/10. + "km", XSIZE*29/30, YSIZE/20);
   }
 
 void updateCoins(){

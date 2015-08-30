@@ -146,7 +146,7 @@ void setup() {
   //   enemies[1].add(temp2);
   // }
   start = true;
-  state = 0;
+  state = 9;
 }
 
 void setup2() {//RESTART
@@ -165,7 +165,7 @@ void setup2() {//RESTART
   //   enemies[0].add(temp2);
   // }
 
-  state = 10;
+  state = 9;
   start = true;
   startMillis = millis();
 }
@@ -175,11 +175,11 @@ void draw() {
   case 00: //homescreen
     background(0);
     fill(255);
-    textSize(XSIZE/10);
+    textSize(XSIZE/9);
     textAlign(CENTER, CENTER);
-    text("To Infinity...", XSIZE/2, YSIZE/10); 
+    text("TO INFINItY...", XSIZE/2, YSIZE/10); 
     textSize(XSIZE/7);
-    text("LAUNCH", XSIZE/2, YSIZE*5/6);
+    text("LAUNCH!", XSIZE/2, YSIZE*5/6);
     imageMode(CENTER);
     textSize(YSIZE/40);
     text("YK, DK, FW", XSIZE/6, YSIZE * 29/30);
@@ -187,6 +187,37 @@ void draw() {
     if (mousePressed) {
       startMillis = millis();
       state = 9;
+    }
+    break;
+    
+  case 9: //pre-game sequence
+    buildBackground();
+    player.display();
+    
+    fill(#787C6A);
+    noStroke();
+    rect(0,YSIZE*2/3,XSIZE/3,YSIZE*2/3 - YSIZE/23);
+    
+    fill(#3CDB42);
+    rect(0,YSIZE*22/23,XSIZE,YSIZE/20);
+    
+    PImage tower = loadImage("tower.png");
+    tower.resize(XSIZE/4,YSIZE/4);
+    imageMode(CENTER);
+    image(tower,XSIZE/2 - XSIZE/10,YSIZE*8/9 - YSIZE/40);
+    
+    player.yCor = YSIZE - YSIZE*(millis()-startMillis)/1700;
+    if(millis() - startMillis > 2050){
+      startMillis = millis();
+      player.yCor = YSIZE*4/5;
+      state = 10;
+      if(sLevel == 0)
+        score = 30;
+      else if(sLevel == 1)
+        score = 50;
+      else{
+        score = 70;
+      }
     }
     break;
 
@@ -424,7 +455,7 @@ void detect() {
 
 void decFuel() {
   player.fuel -= decFuel;
-  if (frameCount%2 == 0 && random(10) < (8 + 0.55*sLevel))
+  if (frameCount%2 == 0 && random(10) < (8 - 0.5*sLevel))
     player.fuel -= 1;
 }
 
@@ -447,8 +478,11 @@ void checkHits() {
 }
 
 void checkScore() {
-  if (frameCount%4 == 0 && random(10) < (9 + 0.5*sLevel))
+  if (frameCount%4 == 0)
     score++;
+  else if(frameCount % 2 == 0 && random(10) < 1 + 3*sLevel){
+    score ++;
+  }
 }
 
 void checkDeath() {
@@ -479,7 +513,7 @@ void stats() {
   }
   textAlign(RIGHT);
   text("Height:" + score/10. + "km", XSIZE*29/30, YSIZE/20);
-  if (player.hit)
+  if (player.hit || player.fuel/10. < 10)
     fill(#EA1509);
   textAlign(LEFT);
   text("Fuel:" + player.fuel/10. + "%", XSIZE/30, YSIZE/20);

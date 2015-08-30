@@ -45,13 +45,13 @@ boolean released;
 PrintWriter output;
 
 void setup() {
-  orientation(PORTRAIT);
-    XSIZE = displayWidth;
-    YSIZE = displayHeight;
-    size(displayWidth, displayHeight);
-//   XSIZE = 400; //comment this when using on android
-//   YSIZE = 600;
-//   size(XSIZE, YSIZE);
+//  orientation(PORTRAIT);
+//    XSIZE = displayWidth;
+//    YSIZE = displayHeight;
+//    size(displayWidth, displayHeight);
+   XSIZE = 400; //comment this when using on android
+   YSIZE = 600;
+   size(XSIZE, YSIZE);
   frameRate(45);
 
   player = new Ship();
@@ -96,10 +96,10 @@ void setup() {
   cloud = loadImage("cloud.png");
   cloud.resize(YSIZE/10, YSIZE/10);
 
-  bird1 = loadImage("Bird1.png");
+  bird1 = loadImage("bird1.png");
   bird1.resize(YSIZE/6, YSIZE/10);
 
-  bird2 = loadImage("Bird2.png");
+  bird2 = loadImage("bird2.png");
   bird2.resize(YSIZE/6, YSIZE/10);
 
   balloon = loadImage("HotAirBalloon2.png");
@@ -234,6 +234,8 @@ void draw() {
     textSize(XSIZE/20);
     textAlign(LEFT,CENTER);
     text("Thruster Upgrade:", YSIZE/30, YSIZE/4 + YSIZE/30);
+    
+    text("Hull Upgrade:", YSIZE/30, YSIZE/4 + YSIZE/6);
     
     PImage progress;
     

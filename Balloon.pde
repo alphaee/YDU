@@ -33,8 +33,8 @@ class Balloon implements Enemy {
   }
   
   boolean collide() {
-    return !(player.xCor > xCor+bWidth || player.xCor+YSIZE/4 < xCor 
-      || player.yCor > yCor+bHeight || player.yCor+YSIZE/4 < yCor);  
+    return !(player.xCor + YSIZE/8 - player.sWidth/2 > xCor + YSIZE/12 + bWidth/2 || player.xCor + YSIZE/8 + player.sWidth/2 < xCor + YSIZE/12 - bWidth/2
+      || player.yCor + YSIZE/8 - player.sHeight/2 > yCor + YSIZE/12 + bHeight/2 || player.yCor + YSIZE/8 + player.sHeight/2 < yCor + YSIZE/12 - bWidth/2);
   }
 
   void move() {
@@ -48,7 +48,7 @@ class Balloon implements Enemy {
   }
   
   boolean inBounds(){
-    if(xCor + YSIZE/8 - player.sWidth/2 > 0 && xCor + YSIZE/8 + player.sWidth/2 < XSIZE && yCor + YSIZE/8 - player.sHeight/2 < YSIZE)
+    if(xCor + YSIZE/12 - bWidth/2 > 0 && xCor + YSIZE/12 + bWidth/2 < XSIZE && yCor + YSIZE/12 - bHeight/2 < YSIZE)
       return true;
     return false;
   }

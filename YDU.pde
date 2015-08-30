@@ -96,10 +96,10 @@ void setup() {
   cloud = loadImage("cloud.png");
   cloud.resize(YSIZE/10, YSIZE/10);
 
-  bird1 = loadImage("bird1.png");
+  bird1 = loadImage("Bird1.png");
   bird1.resize(YSIZE/6, YSIZE/10);
 
-  bird2 = loadImage("bird2.png");
+  bird2 = loadImage("Bird2.png");
   bird2.resize(YSIZE/6, YSIZE/10);
 
   balloon = loadImage("HotAirBalloon2.png");
@@ -264,6 +264,7 @@ void draw() {
 
 void buildBackground() {
   background(178-score*178/1000, 240-score*240/1000, 255-score*255/1000);
+  // setGradient(0, 0, XSIZE,1000, 0, #B2F0FF);
   image(cloud, XSIZE/6, YSIZE/8);
   image(cloud, XSIZE/4, YSIZE/6);
   image(cloud, XSIZE/2, YSIZE/3);
@@ -274,6 +275,16 @@ void buildBackground() {
   image(bird1, XSIZE/3 + XSIZE*2/25, YSIZE/2 - 40);
   image(bird1, XSIZE/3 - XSIZE/25, YSIZE/2 - 20);
   image(bird1, XSIZE*4/5, YSIZE*2/5);
+}
+
+void setGradient(int x, int y, float w, float h, color c1, color c2) {
+  noFill();
+  for (int i = y; i <= y+h; i++) {
+    float inter = map(i, y, y+h, 0, 1);
+    color c = lerpColor(c1, c2, inter);
+    stroke(c);
+    line(x, i, x+w, i);
+  }
 }
 
 void keyPressed() {
@@ -306,15 +317,12 @@ void mousePressed() {
 }
  
 void detect() {
-  if(abs(mouseX - (player.xCor + YSIZE/8)) > 5){
-    if (mouseX < player.xCor + YSIZE/8) {
-      player.dir = 2;
-      player.left();
-    } 
-    else{  
-      player.dir = 1;
-      player.right();
-    }
+  if (mouseX < XSIZE/2) {
+    player.dir = 2;
+    player.left();
+  } else {  
+    player.dir = 1;
+    player.right();
   }
 }
 

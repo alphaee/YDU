@@ -41,10 +41,10 @@ class Asteroid implements Enemy {
   void move() {
     yCor += YSIZE/100;
     if (xDirection == 0){
-      xCor += XSIZE/450;
+      xCor += XSIZE/600.0;
     }
     else{
-      xCor -= XSIZE/450;
+      xCor -= XSIZE/600.0;
     }
   }
   

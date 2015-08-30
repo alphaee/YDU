@@ -90,30 +90,30 @@ void setup() {
     enemies[i] = new ArrayList<Enemy>();
   }
 
-  for (int j = 0; j < 5; j ++) {
-    Balloon temp = new Balloon();
-    enemies[0].add(temp);
+  // for (int j = 0; j < 5; j ++) {
+  //   Balloon temp = new Balloon();
+  //   enemies[0].add(temp);
 
-    Asteroid temp2 = new Asteroid();
-    enemies[1].add(temp2);
-  }
+  //   Asteroid temp2 = new Asteroid();
+  //   enemies[1].add(temp2);
+  // }
 }
 
 void setup2() {//RESTART
-  player.fuel = 200;
+  player.fuel = 1000;
   score = 0;
 
   for (int i = 0; i < enemies.length; i ++) {
     enemies[i] = new ArrayList<Enemy>();
   }
 
-  for (int j = 0; j < 5; j ++) {
-    Balloon temp = new Balloon();
-    enemies[0].add(temp);
+  // for (int j = 0; j < 5; j ++) {
+  //   Balloon temp = new Balloon();
+  //   enemies[0].add(temp);
 
-    Asteroid temp2 = new Asteroid();
-    enemies[0].add(temp2);
-  }
+  //   Asteroid temp2 = new Asteroid();
+  //   enemies[0].add(temp2);
+  // }
 
   state = 10;
 }
@@ -250,7 +250,7 @@ void detect() {
 
 void decFuel() {
   player.fuel -= decFuel;
-  if (frameCount%2 == 0)
+  if (frameCount%2 == 0 && random(10) < 8)
     player.fuel -= 1;
 }
 

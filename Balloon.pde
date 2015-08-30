@@ -20,7 +20,8 @@ class Balloon implements Enemy {
     val = 30;
     bWidth = YSIZE/6*240/600;
     bHeight = YSIZE/6*330/600;
-    xDirection = (int)(2*random(1) - 1);
+    xDirection = (int)(3*random(1) - 1);
+    println(xDirection);
   }
 
   void act() {
@@ -40,10 +41,10 @@ class Balloon implements Enemy {
   void move() {
     yCor += YSIZE/200;
     if (xDirection == 0){
-      xCor += XSIZE/450;
+      xCor += XSIZE/500.0;
     }
     else{
-      xCor -= XSIZE/450;
+      xCor -= XSIZE/500.0;
     }
   }
   

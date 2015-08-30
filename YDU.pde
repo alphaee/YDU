@@ -14,6 +14,9 @@ int coins;
 int score;
 int highscore;
 int sLevel;
+int hLevel;
+
+int startMillis;
 
 PImage rocket;
 PImage rocketL;
@@ -41,6 +44,8 @@ int decFuel;
 int invin;
 
 boolean released;
+
+boolean start;
 
 PrintWriter output;
 
@@ -141,6 +146,7 @@ void setup() {
   //   Asteroid temp2 = new Asteroid();
   //   enemies[1].add(temp2);
   // }
+  start = true;
   state = 20;
 }
 
@@ -161,6 +167,7 @@ void setup2() {//RESTART
   // }
 
   state = 10;
+  start = true;
 }
 
 void draw() {
@@ -189,27 +196,31 @@ void draw() {
       player.hit = false;
 
     player.display();  
-
-    if (mousePressed) {
-      detect();
-    } else {
-      player.dir = 0;
+    if(start){
+      countdown(startMillis);
     }
-    
-    spawnEnemies();
-    
-    stats();
-
-    actAll();
-
-    checkHits();
-
-    decFuel();
+    else{
+      if (mousePressed) {
+        detect();
+      } else {
+        player.dir = 0;
+      }
+      
+      spawnEnemies();
+      
+      stats();
   
-    enemyDeath();
-
-    checkScore();
-    checkDeath();
+      actAll();
+  
+      checkHits();
+  
+      decFuel();
+    
+      enemyDeath();
+  
+      checkScore();
+      checkDeath();
+    }
     break;
 
   case 20: //upgrade screen
@@ -229,31 +240,56 @@ void draw() {
     textSize(XSIZE/10);
     textAlign(CENTER, CENTER);
     stroke(255);
-    text("RETRY", XSIZE/2, YSIZE*5/6);
+    text("RETRY", XSIZE/2, YSIZE*6/7);
     
     textSize(XSIZE/20);
     textAlign(LEFT,CENTER);
-    text("Thruster Upgrade:", YSIZE/30, YSIZE/4 + YSIZE/30);
-    
-    text("Hull Upgrade:", YSIZE/30, YSIZE/4 + YSIZE/6);
     
     PImage progress;
     
     if(sLevel == 0){
+      text("Thruster Upgrade: 1000", YSIZE/30, YSIZE/4 + YSIZE/30);
       progress = loadImage("progress-bar-1.png");
     }
     else if(sLevel == 1){
+      text("Thruster Upgrade: 2000", YSIZE/30, YSIZE/4 + YSIZE/30);
       progress = loadImage("progress-bar-2.png");
     }
     else{
+      text("Thruster Upgrade: 3000", YSIZE/30, YSIZE/4 + YSIZE/30);
       progress = loadImage("progress-bar-3.png");
     }
-    progress.resize(XSIZE*4/5, YSIZE/10);
+    progress.resize(XSIZE*3/5, YSIZE/5);
+    
+    PImage hull;
+    
+    if(hLevel == 0){
+      text("Hull Upgrade: 500", YSIZE/30, YSIZE/4 + YSIZE/6);
+      hull = loadImage("hull-bar-1.png");
+    }
+    else if(hLevel == 1){
+      text("Hull Upgrade: 1500", YSIZE/30, YSIZE/4 + YSIZE/6);
+      hull = loadImage("hull-bar-2.png");
+    }
+    else if(hLevel == 2){
+      text("Hull Upgrade: 2250", YSIZE/30, YSIZE/4 + YSIZE/6);
+      hull = loadImage("hull-bar-3.png");
+    }
+    else if(hLevel == 3){
+      text("Hull Upgrade: 3000", YSIZE/30, YSIZE/4 + YSIZE/6);
+      hull = loadImage("hull-bar-4.png");
+    }
+    else{
+      text("Hull Upgrade: 3500", YSIZE/30, YSIZE/4 + YSIZE/6);
+      hull = loadImage("hull-bar-5.png");
+    }
+    hull.resize(XSIZE*3/5, YSIZE/5);
+    
     imageMode(CORNER);
     image(progress,YSIZE/30, YSIZE/4);
-    
+    image(hull,YSIZE/30, YSIZE/3 + YSIZE/25);
     if (released&&mousePressed) {
-      if (mouseY > YSIZE*2/3) {
+      if (mouseY > YSIZE*3/4) {
         setup2();
       }
       released = false;
@@ -318,15 +354,18 @@ void mousePressed() {
     released = true;
 }
  
-void detect() {
-  if (mouseX < XSIZE/2) {
-    player.dir = 2;
-    player.left();
-  } else {  
-    player.dir = 1;
-    player.right();
-  }
-}
+ void detect() {
+    if(abs(mouseX - (player.xCor + YSIZE/8)) > 5){
+      if (mouseX < player.xCor + YSIZE/8) {
+      player.dir = 2;
+      player.left();
+      } 
+      else{  
+      player.dir = 1;
+      player.right();
+      }
+   }       
+ }     
 
 void decFuel() {
   player.fuel -= decFuel;

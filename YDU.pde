@@ -13,20 +13,10 @@ ArrayList<Enemy>[] enemies; //0-Balloon, 1-Asteroid
 int coins;
 int score;
 int highscore;
-int sLevel;
 
 PImage rocket;
 PImage rocketL;
 PImage rocketR;
-PImage rocket0;
-PImage rocket0L;
-PImage rocket0R;
-PImage rocket1;
-PImage rocket1L;
-PImage rocket1R;
-PImage rocket2;
-PImage rocket2L;
-PImage rocket2R;
 PImage coin;
 PImage cloud;
 PImage bird1, bird2;
@@ -46,12 +36,12 @@ PrintWriter output;
 
 void setup() {
   orientation(PORTRAIT);
-    XSIZE = displayWidth;
-    YSIZE = displayHeight;
-    size(displayWidth, displayHeight);
-//   XSIZE = 400; //comment this when using on android
-//   YSIZE = 600;
-//   size(XSIZE, YSIZE);
+   // XSIZE = displayWidth;
+   // YSIZE = displayHeight;
+   // size(displayWidth, displayHeight);
+   XSIZE = 400; //comment this when using on android
+   YSIZE = 600;
+   size(XSIZE, YSIZE);
   frameRate(45);
 
   player = new Ship();
@@ -62,33 +52,15 @@ void setup() {
 
   font = loadFont("VCROSDMono-200.vlw");
   textFont(font);
-  
-  rocket0 = loadImage("shuttle-middle-flame.png");
-  rocket0.resize(YSIZE/4, YSIZE/4);
-  
-  rocket0L = loadImage("shuttle-left-flame.png");
-  rocket0L.resize(YSIZE/4, YSIZE/4);
-  
-  rocket0R = loadImage("shuttle-right-flame.png");
-  rocket0R.resize(YSIZE/4, YSIZE/4);
-  
-  rocket1 = loadImage("fueltank-middle-flame.png");
-  rocket1.resize(YSIZE/4, YSIZE/4);
-  
-  rocket1L = loadImage("fueltank-left-flame.png");
-  rocket1L.resize(YSIZE/4, YSIZE/4);
-  
-  rocket1R = loadImage("fueltank-right-flame.png");
-  rocket1R.resize(YSIZE/4, YSIZE/4);
-  
-  rocket2 = loadImage("rocket-middle-flame.png");
-  rocket2.resize(YSIZE/4, YSIZE/4);
 
-  rocket2L = loadImage("rocket-left-flame.png");
-  rocket2L.resize(YSIZE/4, YSIZE/4);
+  rocket = loadImage("rocket-middle-flame.png");
+  rocket.resize(YSIZE/4, YSIZE/4);
 
-  rocket2R = loadImage("rocket-right-flame.png");
-  rocket2R.resize(YSIZE/4, YSIZE/4);
+  rocketL = loadImage("rocket-left-flame.png");
+  rocketL.resize(YSIZE/4, YSIZE/4);
+
+  rocketR = loadImage("rocket-right-flame.png");
+  rocketR.resize(YSIZE/4, YSIZE/4);
 
   coin = loadImage("coin.png");
   coin.resize(YSIZE/10, YSIZE/10);
@@ -106,10 +78,10 @@ void setup() {
   balloon.resize(YSIZE/6, YSIZE/6);
 
   asteroid1 = loadImage("Asteroid1.png");
-  asteroid1.resize(YSIZE/8, YSIZE/8);
+  asteroid1.resize(YSIZE/6, YSIZE/6);
 
   asteroid2 = loadImage("Asteroid2.png");
-  asteroid2.resize(YSIZE/8, YSIZE/8);
+  asteroid2.resize(YSIZE/6, YSIZE/6);
 
   meteor = loadImage("Meteor.png");
   meteor.resize(YSIZE/2, YSIZE/2);
@@ -117,23 +89,7 @@ void setup() {
   for (int i = 0; i < enemies.length; i ++) {
     enemies[i] = new ArrayList<Enemy>();
   }
-  
-  if(sLevel == 0){
-    rocket = rocket0;
-    rocketL = rocket0L;
-    rocketR = rocket0R;
-  }
-  else if(sLevel == 1){
-    rocket = rocket1;
-    rocketL = rocket1L;
-    rocketR = rocket1R;
-  }
-  else{
-    rocket = rocket2;
-    rocketL = rocket2L;
-    rocketR = rocket2R;
-  }
-  
+
   // for (int j = 0; j < 5; j ++) {
   //   Balloon temp = new Balloon();
   //   enemies[0].add(temp);
@@ -141,7 +97,6 @@ void setup() {
   //   Asteroid temp2 = new Asteroid();
   //   enemies[1].add(temp2);
   // }
-  state = 20;
 }
 
 void setup2() {//RESTART
@@ -174,7 +129,7 @@ void draw() {
     textSize(XSIZE/7);
     text("START", XSIZE/2, YSIZE*5/6);
     imageMode(CENTER);
-    image(meteor, XSIZE/2, YSIZE*7/18);
+    image(meteor, XSIZE/2, YSIZE/3);
     if (mousePressed) {
       state = 10;
     }
@@ -216,40 +171,18 @@ void draw() {
     fill(255);
     background(0);
     textSize(XSIZE/9);
-    textAlign(CENTER,CENTER);
     text("UPGRADES", XSIZE/2, YSIZE/15);
     textSize(XSIZE/20);
     textAlign(LEFT, CENTER);
     text("Best Distance:" + highscore/10. + "km", YSIZE/30, YSIZE/11 + YSIZE/20);
     text("Your Distance:" + score/10. + "km", YSIZE/30, YSIZE/11 + YSIZE/12);
     imageMode(CENTER);
-    image(coin, YSIZE/22, YSIZE/8 + YSIZE/11);
-    text(":" + coins, YSIZE/17, YSIZE/8 + YSIZE*2/20 - 5);
-    
+    image(coin, YSIZE/22, YSIZE/7 + YSIZE/11);
+    text(":" + coins, YSIZE/17, YSIZE/7 + YSIZE*2/20 - 5);
     textSize(XSIZE/10);
     textAlign(CENTER, CENTER);
     stroke(255);
     text("RETRY", XSIZE/2, YSIZE*5/6);
-    
-    textSize(XSIZE/20);
-    textAlign(LEFT,CENTER);
-    text("Thruster Upgrade:", YSIZE/30, YSIZE/4 + YSIZE/30);
-    
-    PImage progress;
-    
-    if(sLevel == 0){
-      progress = loadImage("progress-bar-1.png");
-    }
-    else if(sLevel == 1){
-      progress = loadImage("progress-bar-2.png");
-    }
-    else{
-      progress = loadImage("progress-bar-3.png");
-    }
-    progress.resize(XSIZE*4/5, YSIZE/10);
-    imageMode(CORNER);
-    image(progress,YSIZE/30, YSIZE/4);
-    
     if (released&&mousePressed) {
       if (mouseY > YSIZE*2/3) {
         setup2();
@@ -263,7 +196,15 @@ void draw() {
 
 
 void buildBackground() {
-  background(178-score*178/1000, 240-score*240/1000, 255-score*255/1000);
+  if (score < 500){
+    background(178, 240-score*120/1000, 255);
+  }
+  else if(score < 750){
+    background(178+(score-500)*178/1000, 180-(score-500)*120/1000, 255);
+  }
+  else{
+    background(222.5-(score-750)*222.5/1000, 150-(score-750)*150/1000,255-(score-750)*255/1000);
+  }
   // setGradient(0, 0, XSIZE,1000, 0, #B2F0FF);
   image(cloud, XSIZE/6, YSIZE/8);
   image(cloud, XSIZE/4, YSIZE/6);
@@ -277,15 +218,15 @@ void buildBackground() {
   image(bird1, XSIZE*4/5, YSIZE*2/5);
 }
 
-void setGradient(int x, int y, float w, float h, color c1, color c2) {
-  noFill();
-  for (int i = y; i <= y+h; i++) {
-    float inter = map(i, y, y+h, 0, 1);
-    color c = lerpColor(c1, c2, inter);
-    stroke(c);
-    line(x, i, x+w, i);
-  }
-}
+// void setGradient(int x, int y, float w, float h, color c1, color c2) {
+//   noFill();
+//   for (int i = y; i <= y+h; i++) {
+//     float inter = map(i, y, y+h, 0, 1);
+//     color c = lerpColor(c1, c2, inter);
+//     stroke(c);
+//     line(x, i, x+w, i);
+//   }
+// }
 
 void keyPressed() {
   if (keyCode == RIGHT)
@@ -315,7 +256,7 @@ void mousePressed() {
   if (state==20)
     released = true;
 }
- 
+
 void detect() {
   if (mouseX < XSIZE/2) {
     player.dir = 2;
@@ -360,7 +301,6 @@ void checkDeath() {
     if (score > highscore)
       highscore = score;
     writeFile();
-    updateCoins();
     state = 20;
   }
 }
@@ -376,16 +316,10 @@ void enemyDeath(){
 void stats() {
   textSize(XSIZE/20);
   fill(50);
-  textAlign(RIGHT);
-  text("Height:" + score/10. + "km", XSIZE*29/30, YSIZE/20);
-  if(player.hit)
-    fill(#EA1509);
   textAlign(LEFT);
   text("Fuel:" + player.fuel/10. + "%", XSIZE/30, YSIZE/20);
-}
-
-void updateCoins(){
-  coins += score;
+  textAlign(RIGHT);
+  text("Height:" + score/10. + "km", XSIZE*29/30, YSIZE/20);
 }
 
 void parseData() {

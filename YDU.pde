@@ -59,7 +59,7 @@ void setup() {
   coin.resize(YSIZE/10, YSIZE/10);
   cloud = loadImage("cloud.png");
   cloud.resize(YSIZE/10, YSIZE/10);
-  bird1 = loadImage("bird1.png");
+  bird1 = loadImage("Bird1.png");
   bird1.resize(YSIZE/6, YSIZE/10);
   bird2 = loadImage("Bird2.png");
   bird2.resize(YSIZE/6, YSIZE/10);

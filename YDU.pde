@@ -36,12 +36,12 @@ PrintWriter output;
 
 void setup() {
   orientation(PORTRAIT);
-   // XSIZE = displayWidth;
-   // YSIZE = displayHeight;
-   // size(displayWidth, displayHeight);
-   XSIZE = 400; //comment this when using on android
-   YSIZE = 600;
-   size(XSIZE, YSIZE);
+    XSIZE = displayWidth;
+    YSIZE = displayHeight;
+    size(displayWidth, displayHeight);
+//   XSIZE = 400; //comment this when using on android
+//   YSIZE = 600;
+//   size(XSIZE, YSIZE);
   frameRate(45);
 
   player = new Ship();

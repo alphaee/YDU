@@ -257,19 +257,19 @@ void draw() {
     if(sLevel == 0){
       text("Thruster Upgrade: 1000", YSIZE/30, YSIZE/4 + YSIZE/30);
       textAlign(RIGHT,CENTER);
-      if(coins > 1000)
+      if(coins >= 1000)
         text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/12);
       progress = loadImage("progress-bar-1.png");
     }
     else if(sLevel == 1){
-      text("Thruster Upgrade: 2000", YSIZE/30, YSIZE/4 + YSIZE/30);
+      text("Thruster Upgrade: 2500", YSIZE/30, YSIZE/4 + YSIZE/30);
       textAlign(RIGHT,CENTER);
-      if(coins > 2000)
+      if(coins >= 2000)
         text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/12);
       progress = loadImage("progress-bar-2.png");
     }
     else{
-      text("Thruster Upgrade: 3000", YSIZE/30, YSIZE/4 + YSIZE/30);
+      text("Thruster Upgrade: ", YSIZE/30, YSIZE/4 + YSIZE/30);
       textAlign(RIGHT,CENTER);
       text("SOLD OUT", XSIZE - XSIZE/20, YSIZE/4 + YSIZE/12);
       progress = loadImage("progress-bar-3.png");
@@ -281,35 +281,35 @@ void draw() {
     if(hLevel == 0){
       text("Hull Upgrade: 500", YSIZE/30, YSIZE/4 + YSIZE/6);
       textAlign(RIGHT,CENTER);
-      if(coins > 500)
-        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/12);
+      if(coins >= 500)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/15);
       hull = loadImage("hull-bar-1.png");
     }
     else if(hLevel == 1){
-      text("Hull Upgrade: 1500", YSIZE/30, YSIZE/4 + YSIZE/6);
+      text("Hull Upgrade: 1250", YSIZE/30, YSIZE/4 + YSIZE/6);
       textAlign(RIGHT,CENTER);
-      if(coins > 2000)
-        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/12);
+      if(coins >= 1250)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/15);
       hull = loadImage("hull-bar-2.png");
     }
     else if(hLevel == 2){
-      text("Hull Upgrade: 2250", YSIZE/30, YSIZE/4 + YSIZE/6);
+      text("Hull Upgrade: 2000", YSIZE/30, YSIZE/4 + YSIZE/6);
       textAlign(RIGHT,CENTER);
-      if(coins > 2250)
-        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/12);
+      if(coins >= 2000)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/15);
       hull = loadImage("hull-bar-3.png");
     }
     else if(hLevel == 3){
-      text("Hull Upgrade: 3000", YSIZE/30, YSIZE/4 + YSIZE/6);
+      text("Hull Upgrade: 2750", YSIZE/30, YSIZE/4 + YSIZE/6);
       textAlign(RIGHT,CENTER);
-      if(coins > 3000)
-        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/12);
+      if(coins >= 2750)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/15);
       hull = loadImage("hull-bar-4.png");
     }
     else{
-      text("Hull Upgrade: 3500", YSIZE/30, YSIZE/4 + YSIZE/6);
+      text("Hull Upgrade: ", YSIZE/30, YSIZE/4 + YSIZE/6);
       textAlign(RIGHT,CENTER);
-      text("SOLD OUT", XSIZE - XSIZE/20, YSIZE/4 + YSIZE/6);
+      text("SOLD OUT", XSIZE - XSIZE/20, YSIZE/4 + YSIZE/6 + YSIZE/15);
       hull = loadImage("hull-bar-5.png");
     }
     hull.resize(XSIZE*3/5, YSIZE/5);
@@ -318,8 +318,16 @@ void draw() {
     image(progress,YSIZE/30, YSIZE/4);
     image(hull,YSIZE/30, YSIZE/3 + YSIZE/25);
     if (released&&mousePressed) {
-      if (mouseY > YSIZE*3/4) {
+      if (mouseY > YSIZE*2/3) {
         setup2();
+      }
+      else if(mouseY > YSIZE/4 + YSIZE/7 && hLevel < 4 && coins >= (hLevel*750 + 500)){
+        coins -= hLevel*750 + 500;
+        hLevel++;
+      }
+      else if(mouseY > YSIZE/4 && sLevel<2 && coins >= (1000 + sLevel*1500)){
+        coins -= 1000 + sLevel*1500;
+        sLevel++;
       }
       released = false;
     }

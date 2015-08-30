@@ -19,7 +19,7 @@ class Asteroid implements Enemy {
     yCor = random(-YSIZE/10,0);
     val = 20;
     //println("hi");
-    aWidth = YSIZE/6*210/600;
+    aWidth = YSIZE/6*146/600;
     aHeight = YSIZE/6*195/600;
     xDirection = (int)(3*random(1) - 1);
   }
@@ -34,8 +34,8 @@ class Asteroid implements Enemy {
   }
 
   boolean collide() {
-    return !(player.xCor + YSIZE/8 - player.sWidth/2 > xCor + YSIZE/12 + aWidth/2 || player.xCor + YSIZE/8 + player.sWidth/2 < xCor + YSIZE/12 - aWidth/2
-      || player.yCor + YSIZE/8 - player.sHeight/2 > yCor + YSIZE/12 + aHeight/2 || player.yCor + YSIZE/8 + player.sHeight/2 < yCor + YSIZE/12 - aWidth/2);
+    return !(player.xCor + YSIZE/8 - player.sWidth/2 > xCor + YSIZE/16 + aWidth/2 || player.xCor + YSIZE/8 + player.sWidth/2 < xCor + YSIZE/16 - aWidth/2
+      || player.yCor + YSIZE/8 - player.sHeight/2 > yCor + YSIZE/16 + aHeight/2 || player.yCor + YSIZE/8 + player.sHeight/2 < yCor + YSIZE/16 - aWidth/2);
   }
 
   void move() {
@@ -49,7 +49,7 @@ class Asteroid implements Enemy {
   }
   
   boolean inBounds(){
-    if(xCor + YSIZE/12 + aWidth/2 > 0 && xCor + YSIZE/12 - aWidth/2 < XSIZE && yCor + YSIZE/12 - aHeight/2 < YSIZE)
+    if(xCor + YSIZE/16 + aWidth/2 > 0 && xCor + YSIZE/16 - aWidth/2 < XSIZE && yCor + YSIZE/16 - aHeight/2 < YSIZE)
       return true;
     return false;
   }

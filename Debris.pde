@@ -18,7 +18,7 @@ class Debris implements Enemy {
     // xCor = (int)random(XSIZE/10, XSIZE*9/10);
     xCor = random(XSIZE);
     yCor = random(-YSIZE/10, 0);
-    val = 40;
+    val = 50;
     dWidth = YSIZE/8*600/800;
     dHeight = YSIZE/8*600/800;
     xDirection = (int)(3*random(1) - 1);

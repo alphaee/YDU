@@ -25,15 +25,19 @@ float offsetY1, offsetY2, offsetY3, offsetY4;
 PImage rocket;
 PImage rocketL;
 PImage rocketR;
+PImage rocketN;
 PImage rocket0;
 PImage rocket0L;
 PImage rocket0R;
+PImage rocket0N;
 PImage rocket1;
 PImage rocket1L;
 PImage rocket1R;
+PImage rocket1N;
 PImage rocket2;
 PImage rocket2L;
 PImage rocket2R;
+PImage rocket2N;
 PImage coin;
 PImage cloud;
 PImage bird1;
@@ -52,6 +56,11 @@ boolean released;
 
 boolean start;
 
+boolean dead;
+
+float deathRad;
+int tarRad;
+
 PrintWriter output;
 
 void setup() {
@@ -63,6 +72,8 @@ void setup() {
   YSIZE = 600;
   size(XSIZE, YSIZE);
   frameRate(45);
+
+  dead = false;
 
   setCloudVars();
 
@@ -84,6 +95,9 @@ void setup() {
   rocket0R = loadImage("shuttle-right-flame.png");
   rocket0R.resize(YSIZE/4, YSIZE/4);
 
+  rocket0N = loadImage("shuttle.png");
+  rocket0N.resize(YSIZE/4, YSIZE/4);
+
   rocket1 = loadImage("fueltank-middle-flame.png");
   rocket1.resize(YSIZE/4, YSIZE/4);
 
@@ -92,6 +106,9 @@ void setup() {
 
   rocket1R = loadImage("fueltank-right-flame.png");
   rocket1R.resize(YSIZE/4, YSIZE/4);
+
+  rocket1N = loadImage("fueltank-no-flame.png");
+  rocket1N.resize(YSIZE/4, YSIZE/4);
 
   rocket2 = loadImage("rocket-middle-flame.png");
   rocket2.resize(YSIZE/4, YSIZE/4);
@@ -102,14 +119,17 @@ void setup() {
   rocket2R = loadImage("rocket-right-flame.png");
   rocket2R.resize(YSIZE/4, YSIZE/4);
 
+  rocket2N = loadImage("rocket-no-flame.png");
+  rocket2N.resize(YSIZE/4, YSIZE/4);
+
   coin = loadImage("coin.png");
   coin.resize(YSIZE/10, YSIZE/10);
 
   cloud = loadImage("cloud.png");
   cloud.resize(YSIZE/10, YSIZE/10);
-//
-//  bird1 = loadImage("bird1.png");
-//  bird1.resize(YSIZE/6, YSIZE/10);
+  //
+  //  bird1 = loadImage("bird1.png");
+  //  bird1.resize(YSIZE/6, YSIZE/10);
 
   balloon0 = loadImage("HotAirBalloon3.png");
   balloon0.resize(YSIZE/6, YSIZE/6);
@@ -134,14 +154,17 @@ void setup() {
     rocket = rocket0;
     rocketL = rocket0L;
     rocketR = rocket0R;
+    rocketN = rocket0N;
   } else if (sLevel == 1) {
     rocket = rocket1;
     rocketL = rocket1L;
     rocketR = rocket1R;
+    rocketN = rocket1N;
   } else {
     rocket = rocket2;
     rocketL = rocket2L;
     rocketR = rocket2R;
+    rocketN = rocket2N;
   }
 
   // for (int j = 0; j < 5; j ++) {
@@ -151,6 +174,9 @@ void setup() {
   //   Asteroid temp2 = new Asteroid();
   //   enemies[1].add(temp2);
   // }
+
+  dead = false;
+
   start = true;
   player.hit = false;
   state = 0;
@@ -177,15 +203,20 @@ void setup2() {//RESTART
     rocket = rocket0;
     rocketL = rocket0L;
     rocketR = rocket0R;
+    rocketN = rocket0N;
   } else if (sLevel == 1) {
     rocket = rocket1;
     rocketL = rocket1L;
     rocketR = rocket1R;
+    rocketN = rocket1N;
   } else {
     rocket = rocket2;
     rocketL = rocket2L;
     rocketR = rocket2R;
+    rocketN = rocket2N;
   }
+
+  dead = false;
 
   state = 9;
   player.hit = false;
@@ -292,6 +323,11 @@ void draw() {
       checkScore();
       checkDeath();
     }
+    break;
+
+  case 11:
+    buildBackground();
+    dying();
     break;
 
   case 20: //upgrade screen
@@ -435,10 +471,10 @@ void cloudMove() {
 void setCloudVars() {
   cxCor = random(XSIZE);
   cyCor = 0;
-  offsetX1 = random(100,120);
-  offsetX2 = random(80,150);
-  offsetX3 = random(60,150);
-  offsetX4 = random(100,120);
+  offsetX1 = random(100, 120);
+  offsetX2 = random(80, 150);
+  offsetX3 = random(60, 150);
+  offsetX4 = random(100, 120);
   offsetY1 = random(200);
   offsetY2 = random(200);
   offsetY3 = random(200);
@@ -536,6 +572,27 @@ void checkScore() {
 
 void checkDeath() {
   if (player.fuel < 0) {
+    if (!dead) {
+      dead = !dead;
+      deathRad = sqrt(XSIZE*XSIZE + YSIZE*YSIZE);
+      tarRad = 10;
+      state = 11;
+    }
+  }
+}
+
+//void deathCircle() {
+//  stroke(0);
+//  strokeWeight(tarRad);
+//  tarRad += 30;
+//  noFill();
+//  ellipse(player.xCor + YSIZE/8, player.yCor +YSIZE/8, deathRad, deathRad);
+//}
+
+void dying() {
+  if (player.yCor < YSIZE) {
+    player.fallDeath();
+  } else {
     if (score > highscore)
       highscore = score;
     writeFile();

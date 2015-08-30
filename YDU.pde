@@ -202,9 +202,9 @@ void draw() {
     rect(0,YSIZE*22/23,XSIZE,YSIZE/20);
     
     PImage tower = loadImage("tower.png");
-    tower.resize(XSIZE/4,YSIZE/4);
+    tower.resize(XSIZE/4 + XSIZE/9,YSIZE/4 + YSIZE/20);
     imageMode(CENTER);
-    image(tower,XSIZE/2 - XSIZE/10,YSIZE*8/9 - YSIZE/40);
+    image(tower,XSIZE/2 - XSIZE/10,YSIZE*8/9 - YSIZE/25);
     
     player.yCor = YSIZE - YSIZE*(millis()-startMillis)/1700;
     if(millis() - startMillis > 2050){

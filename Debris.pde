@@ -41,16 +41,18 @@ class Debris implements Enemy {
   }
 
   void move() {
-    yCor += YSIZE/200;
+    yCor += YSIZE/500;
     if (xDirection == 0) {
-      xCor += XSIZE/500.0;
+      xCor += XSIZE/1250.0;
     } else {
-      xCor -= XSIZE/500.0;
+      xCor -= XSIZE/1250.0;
     }
-  }
+//    if (xCor<XSIZE/300.0 || xCor>XSIZE-XSIZE/300.0)
+//      xDirection = (xDirection+1)%2;
+    }
 
-  boolean inBounds() {
-    return xCor + YSIZE/12 + dWidth/2 > 0 && xCor + YSIZE/12 - dWidth/2 < XSIZE && yCor + YSIZE/12 - dHeight/2 < YSIZE ;
-  }
+    boolean inBounds() {
+      return xCor + YSIZE/12 + dWidth/2 > 0 && xCor + YSIZE/12 - dWidth/2 < XSIZE && yCor + YSIZE/12 - dHeight/2 < YSIZE ;
+    }
 }
 

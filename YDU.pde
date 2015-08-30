@@ -106,10 +106,10 @@ void setup() {
   balloon.resize(YSIZE/6, YSIZE/6);
 
   asteroid1 = loadImage("Asteroid1.png");
-  asteroid1.resize(YSIZE/6, YSIZE/6);
+  asteroid1.resize(YSIZE/8, YSIZE/8);
 
   asteroid2 = loadImage("Asteroid2.png");
-  asteroid2.resize(YSIZE/6, YSIZE/6);
+  asteroid2.resize(YSIZE/8, YSIZE/8);
 
   meteor = loadImage("Meteor.png");
   meteor.resize(YSIZE/2, YSIZE/2);
@@ -141,6 +141,7 @@ void setup() {
   //   Asteroid temp2 = new Asteroid();
   //   enemies[1].add(temp2);
   // }
+  state = 20;
 }
 
 void setup2() {//RESTART
@@ -215,18 +216,40 @@ void draw() {
     fill(255);
     background(0);
     textSize(XSIZE/9);
+    textAlign(CENTER,CENTER);
     text("UPGRADES", XSIZE/2, YSIZE/15);
     textSize(XSIZE/20);
     textAlign(LEFT, CENTER);
     text("Best Distance:" + highscore/10. + "km", YSIZE/30, YSIZE/11 + YSIZE/20);
     text("Your Distance:" + score/10. + "km", YSIZE/30, YSIZE/11 + YSIZE/12);
     imageMode(CENTER);
-    image(coin, YSIZE/22, YSIZE/7 + YSIZE/11);
-    text(":" + coins, YSIZE/17, YSIZE/7 + YSIZE*2/20 - 5);
+    image(coin, YSIZE/22, YSIZE/8 + YSIZE/11);
+    text(":" + coins, YSIZE/17, YSIZE/8 + YSIZE*2/20 - 5);
+    
     textSize(XSIZE/10);
     textAlign(CENTER, CENTER);
     stroke(255);
     text("RETRY", XSIZE/2, YSIZE*5/6);
+    
+    textSize(XSIZE/20);
+    textAlign(LEFT,CENTER);
+    text("Thruster Upgrade:", YSIZE/30, YSIZE/4 + YSIZE/30);
+    
+    PImage progress;
+    
+    if(sLevel == 0){
+      progress = loadImage("progress-bar-1.png");
+    }
+    else if(sLevel == 1){
+      progress = loadImage("progress-bar-2.png");
+    }
+    else{
+      progress = loadImage("progress-bar-3.png");
+    }
+    progress.resize(XSIZE*4/5, YSIZE/10);
+    imageMode(CORNER);
+    image(progress,YSIZE/30, YSIZE/4);
+    
     if (released&&mousePressed) {
       if (mouseY > YSIZE*2/3) {
         setup2();
@@ -329,6 +352,7 @@ void checkDeath() {
     if (score > highscore)
       highscore = score;
     writeFile();
+    updateCoins();
     state = 20;
   }
 }
@@ -344,10 +368,12 @@ void enemyDeath(){
 void stats() {
   textSize(XSIZE/20);
   fill(50);
-  textAlign(LEFT);
-  text("Fuel:" + player.fuel/10. + "%", XSIZE/30, YSIZE/20);
   textAlign(RIGHT);
   text("Height:" + score/10. + "km", XSIZE*29/30, YSIZE/20);
+  if(player.hit)
+    fill(#EA1509);
+  textAlign(LEFT);
+  text("Fuel:" + player.fuel/10. + "%", XSIZE/30, YSIZE/20);
 }
 
 void updateCoins(){

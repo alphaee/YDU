@@ -30,16 +30,18 @@ int decFuel;
 
 int invin;
 
+boolean released;
+
 PrintWriter output;
 
 void setup() {
   orientation(PORTRAIT);
-  // XSIZE = displayWidth;
-  // YSIZE = displayHeight;
-  // size(displayWidth, displayHeight);
-  XSIZE = 400; //comment this when using on android
-  YSIZE = 700;
-  size(XSIZE, YSIZE);
+   XSIZE = displayWidth;
+   YSIZE = displayHeight;
+   size(displayWidth, displayHeight);
+//  XSIZE = 400; //comment this when using on android
+//  YSIZE = 700;
+//  size(XSIZE, YSIZE);
   frameRate(45);
 
   player = new Ship();
@@ -53,26 +55,36 @@ void setup() {
 
   rocket = loadImage("rocket-middle-flame.png");
   rocket.resize(YSIZE/4, YSIZE/4);
+
   rocketL = loadImage("rocket-left-flame.png");
   rocketL.resize(YSIZE/4, YSIZE/4);
+
   rocketR = loadImage("rocket-right-flame.png");
   rocketR.resize(YSIZE/4, YSIZE/4);
+
   coin = loadImage("coin.png");
   coin.resize(YSIZE/10, YSIZE/10);
+
   cloud = loadImage("cloud.png");
   cloud.resize(YSIZE/10, YSIZE/10);
-  bird1 = loadImage("Bird1.png");
+
+  bird1 = loadImage("bird1.png");
   bird1.resize(YSIZE/6, YSIZE/10);
+
   bird2 = loadImage("Bird2.png");
   bird2.resize(YSIZE/6, YSIZE/10);
+
   balloon = loadImage("HotAirBalloon2.png");
   balloon.resize(YSIZE/6, YSIZE/6);
+
   asteroid1 = loadImage("Asteroid1.png");
   asteroid1.resize(YSIZE/6, YSIZE/6);
+
   asteroid2 = loadImage("Asteroid2.png");
   asteroid2.resize(YSIZE/6, YSIZE/6);
+
   meteor = loadImage("Meteor.png");
-  meteor.resize(YSIZE/2,YSIZE/2);
+  meteor.resize(YSIZE/2, YSIZE/2);
 
   for (int i = 0; i < enemies.length; i ++) {
     enemies[i] = new ArrayList<Enemy>();
@@ -88,9 +100,9 @@ void setup() {
 }
 
 void setup2() {//RESTART
-  player.fuel = 1000;
+  player.fuel = 200;
   score = 0;
-  
+
   for (int i = 0; i < enemies.length; i ++) {
     enemies[i] = new ArrayList<Enemy>();
   }
@@ -146,11 +158,11 @@ void draw() {
     actAll();
 
     checkHits();
-    
+
     decFuel();
-    
+  
     enemyDeath();
-    
+
     checkScore();
     checkDeath();
     break;
@@ -171,14 +183,17 @@ void draw() {
     textAlign(CENTER, CENTER);
     stroke(255);
     text("RETRY", XSIZE/2, YSIZE*5/6);
-    if (mousePressed) {
+    if (released&&mousePressed) {
       if (mouseY > YSIZE*2/3) {
         setup2();
       }
+      released = false;
     }
+
     break;
   }
 }
+
 
 void buildBackground() {
   background(178-score*178/1000, 240-score*240/1000, 255-score*255/1000);
@@ -202,7 +217,11 @@ void keyPressed() {
 }
 
 void spawnEnemies(){
-  
+}
+
+void mousePressed() {
+  if (state==20)
+    released = true;
 }
 
 void detect() {
@@ -228,7 +247,7 @@ void actAll() {
 }
 
 void checkHits() {
-  if(!player.hit){
+  if (!player.hit) {
     for (int i = 0; i < enemies.length; i++)
       for (Enemy e : enemies[i])
         if (e.collide()) {
@@ -281,7 +300,7 @@ void parseData() {
   }
 }
 
-void writeFile(){
+void writeFile() {
   output = createWriter("data.txt");
   output.println(coins);
   output.println(highscore);
@@ -292,11 +311,12 @@ void writeFile(){
 String[] readFile() throws FileNotFoundException {
   BufferedReader reader = createReader("data.txt");
   String[] ret = new String[2];
-  try{
+  try {
     ret[0] = reader.readLine();
     ret[1] = reader.readLine();
     reader.close();
   }
-  catch(Exception e){}
+  catch(Exception e) {
+  }
   return ret;
 }

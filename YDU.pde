@@ -344,6 +344,7 @@ void draw() {
     image(progress, YSIZE/30, YSIZE/4);
     image(hull, YSIZE/30, YSIZE/3 + YSIZE/10 + YSIZE/25);
     if (released&&mousePressed) {
+      writeFile();
       if (mouseY > YSIZE*2/3 + YSIZE/20) {
         setup2();
       } else if (mouseY > YSIZE/4 + YSIZE/5 && hLevel < 4 && coins >= (hLevel*750 + 500)) {

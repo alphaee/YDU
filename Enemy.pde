@@ -10,4 +10,6 @@ interface Enemy {
   boolean collide();
   
   void move();
+  
+  boolean inBounds();
 }

@@ -51,31 +51,22 @@ void setup() {
 
   rocket = loadImage("rocket-middle-flame.png");
   rocket.resize(YSIZE/4, YSIZE/4);
-
   rocketL = loadImage("rocket-left-flame.png");
   rocketL.resize(YSIZE/4, YSIZE/4);
-
   rocketR = loadImage("rocket-right-flame.png");
   rocketR.resize(YSIZE/4, YSIZE/4);
-
   coin = loadImage("coin.png");
   coin.resize(YSIZE/10, YSIZE/10);
-
   cloud = loadImage("cloud.png");
   cloud.resize(YSIZE/10, YSIZE/10);
-
   bird1 = loadImage("Bird1.png");
   bird1.resize(YSIZE/6, YSIZE/10);
-
   bird2 = loadImage("Bird2.png");
   bird2.resize(YSIZE/6, YSIZE/10);
-
   balloon = loadImage("HotAirBalloon2.png");
   balloon.resize(YSIZE/6, YSIZE/6);
-
   asteroid1 = loadImage("Asteroid1.png");
   asteroid1.resize(YSIZE/6, YSIZE/6);
-
   asteroid2 = loadImage("Asteroid2.png");
   asteroid2.resize(YSIZE/6, YSIZE/6);
 
@@ -105,7 +96,7 @@ void setup2() {//RESTART
     enemies[0].add(temp);
 
     Asteroid temp2 = new Asteroid();
-    enemies[1].add(temp2);
+    enemies[0].add(temp2);
   }
 
   state = 10;
@@ -146,9 +137,9 @@ void draw() {
 
     actAll();
 
-    checkHits();
-
     decFuel();
+
+    checkHits();
 
     checkScore();
     checkDeath();
@@ -266,7 +257,7 @@ void parseData() {
   }
 }
 
-void writeFile() {
+void writeFile(){
   output = createWriter("data.txt");
   output.println(coins);
   output.println(highscore);
@@ -277,13 +268,12 @@ void writeFile() {
 String[] readFile() throws FileNotFoundException {
   BufferedReader reader = createReader("data.txt");
   String[] ret = new String[2];
-  try {
+  try{
     ret[0] = reader.readLine();
     ret[1] = reader.readLine();
     reader.close();
   }
-  catch(Exception e) {
-  }
+  catch(Exception e){}
   return ret;
 }
 

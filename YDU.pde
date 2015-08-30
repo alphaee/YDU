@@ -556,6 +556,8 @@ void parseData() {
     data = readFile();
     coins = Integer.parseInt(data[0]);
     highscore = Integer.parseInt(data[1]);
+    sLevel = Integer.parseInt(data[2]);
+    hLevel = Integer.parseInt(data[3]);
   }
   catch(Exception e) {
   }
@@ -565,16 +567,20 @@ void writeFile() {
   output = createWriter("data.txt");
   output.println(coins);
   output.println(highscore);
+  output.println(sLevel);
+  output.println(hLevel);
   output.flush();
   output.close();
 }
 
 String[] readFile() throws FileNotFoundException {
   BufferedReader reader = createReader("data.txt");
-  String[] ret = new String[2];
+  String[] ret = new String[4];
   try {
     ret[0] = reader.readLine();
     ret[1] = reader.readLine();
+    ret[2] = reader.readLine();
+    ret[3] = reader.readLine();
     reader.close();
   }
   catch(Exception e) {

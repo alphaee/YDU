@@ -166,6 +166,20 @@ void setup2() {//RESTART
   //   Asteroid temp2 = new Asteroid();
   //   enemies[0].add(temp2);
   // }
+  
+  if (sLevel == 0) {
+    rocket = rocket0;
+    rocketL = rocket0L;
+    rocketR = rocket0R;
+  } else if (sLevel == 1) {
+    rocket = rocket1;
+    rocketL = rocket1L;
+    rocketR = rocket1R;
+  } else {
+    rocket = rocket2;
+    rocketL = rocket2L;
+    rocketR = rocket2R;
+  }
 
   state = 9;
   player.hit = false;

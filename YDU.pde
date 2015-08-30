@@ -50,7 +50,7 @@ boolean start;
 PrintWriter output;
 
 void setup() {
-  // orientation(PORTRAIT);
+   orientation(PORTRAIT);
    // XSIZE = displayWidth;
    // YSIZE = displayHeight;
    // size(displayWidth, displayHeight);
@@ -101,7 +101,7 @@ void setup() {
   cloud = loadImage("cloud.png");
   cloud.resize(YSIZE/10, YSIZE/10);
 
-  bird1 = loadImage("bird1.png");
+  bird1 = loadImage("Bird1.png");
   bird1.resize(YSIZE/6, YSIZE/10);
   
   balloon0 = loadImage("HotAirBalloon3.png");
@@ -144,7 +144,7 @@ void setup() {
   //   enemies[1].add(temp2);
   // }
   start = true;
-  state = 9;
+  state = 0;
 }
 
 void setup2() {//RESTART
@@ -192,7 +192,7 @@ void draw() {
     image(meteor, XSIZE/2, YSIZE*7/18);
     if (mousePressed) {
       startMillis = millis();
-      state = 10;
+      state = 9;
     }
     break;
   
@@ -397,7 +397,7 @@ void buildBackground() {
     background(178+(score-500)*178/1000, 180-(score-500)*120/1000, 255);
   }
   else{
-    background(222.5-(score-750)*222.5/1000, 150-(score-750)*150/1000,255-(score-750)*255/1000);
+    background(222.5-(score-750)*222.5/250, 150-(score-750)*150/250,255-(score-750)*255/250);
   }
   // setGradient(0, 0, XSIZE,1000, 0, #B2F0FF);
   image(cloud, XSIZE/6, YSIZE/8);
@@ -516,7 +516,12 @@ void enemyDeath(){
 
 void stats() {
   textSize(XSIZE/20);
-  fill(50);
+  if (score < 750){
+    fill(50);
+  }
+  else{
+    fill(50 + score*205/255);
+  }
   textAlign(RIGHT);
   text("Height:" + score/10. + "km", XSIZE*29/30, YSIZE/20);
   if(player.hit || player.fuel/10. < 10)

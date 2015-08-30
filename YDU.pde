@@ -18,6 +18,10 @@ int hLevel;
 
 int startMillis;
 
+float cxCor, cyCor;
+float offsetX1, offsetX2, offsetX3, offsetX4;
+float offsetY1, offsetY2, offsetY3, offsetY4;
+
 PImage rocket;
 PImage rocketL;
 PImage rocketR;
@@ -51,7 +55,7 @@ boolean start;
 PrintWriter output;
 
 void setup() {
-   orientation(PORTRAIT);
+  orientation(PORTRAIT);
   // XSIZE = displayWidth;
   // YSIZE = displayHeight;
   // size(displayWidth, displayHeight);
@@ -59,6 +63,8 @@ void setup() {
   YSIZE = 600;
   size(XSIZE, YSIZE);
   frameRate(45);
+
+  setCloudVars();
 
   player = new Ship();
 
@@ -101,9 +107,9 @@ void setup() {
 
   cloud = loadImage("cloud.png");
   cloud.resize(YSIZE/10, YSIZE/10);
-
-  bird1 = loadImage("bird1.png");
-  bird1.resize(YSIZE/6, YSIZE/10);
+//
+//  bird1 = loadImage("bird1.png");
+//  bird1.resize(YSIZE/6, YSIZE/10);
 
   balloon0 = loadImage("HotAirBalloon3.png");
   balloon0.resize(YSIZE/6, YSIZE/6);
@@ -166,7 +172,7 @@ void setup2() {//RESTART
   //   Asteroid temp2 = new Asteroid();
   //   enemies[0].add(temp2);
   // }
-  
+
   if (sLevel == 0) {
     rocket = rocket0;
     rocketL = rocket0L;
@@ -206,37 +212,37 @@ void draw() {
       state = 9;
     }
     break;
-    
+
   case 9: //pre-game sequence
     buildBackground();
     player.display();
-    
+
     fill(#787C6A);
     noStroke();
-    rect(0,YSIZE*2/3,XSIZE/3,YSIZE*2/3 - YSIZE/23);
-    
+    rect(0, YSIZE*2/3, XSIZE/3, YSIZE*2/3 - YSIZE/23);
+
     fill(#3CDB42);
-    rect(0,YSIZE*22/23,XSIZE,YSIZE/20);
-    
+    rect(0, YSIZE*22/23, XSIZE, YSIZE/20);
+
     PImage tower = loadImage("tower.png");
-    tower.resize(XSIZE/4 + XSIZE/9,YSIZE/4 + YSIZE/20);
+    tower.resize(XSIZE/4 + XSIZE/9, YSIZE/4 + YSIZE/20);
     imageMode(CENTER);
-    image(tower,XSIZE/2 - XSIZE/10,YSIZE*8/9 - YSIZE/25);
-    
+    image(tower, XSIZE/2 - XSIZE/10, YSIZE*8/9 - YSIZE/25);
+
     PImage logo = loadImage("logo.png");
-    logo.resize(XSIZE/4,XSIZE/4);
+    logo.resize(XSIZE/4, XSIZE/4);
     image(logo, XSIZE/6, YSIZE*3/4 + YSIZE/20);
-    
+
     player.yCor = YSIZE - YSIZE*(millis()-startMillis)/1700;
-    if(millis() - startMillis > 2050){
+    if (millis() - startMillis > 2050) {
       startMillis = millis();
       player.yCor = YSIZE*4/5;
       state = 10;
-      if(sLevel == 0)
+      if (sLevel == 0)
         score = 30;
-      else if(sLevel == 1)
+      else if (sLevel == 1)
         score = 50;
-      else{
+      else {
         score = 70;
       }
     }
@@ -244,6 +250,7 @@ void draw() {
 
   case 10: //main game
     buildBackground();
+
 
     decFuel = 0;
 
@@ -269,6 +276,8 @@ void draw() {
       } else {
         player.dir = 0;
       }
+
+      cloudMove();
 
       spawnEnemies();
 
@@ -401,21 +410,39 @@ void buildBackground() {
     background(178, 240-score*120/1000, 255);
   } else if (score < 750) {
     background(178+(score-500)*178/1000, 180-(score-500)*120/1000, 255);
-  }
-  else{
-    background(222.5-(score-750)*222.5/250, 150-(score-750)*150/250,255-(score-750)*255/250);
+  } else {
+    background(222.5-(score-750)*222.5/250, 150-(score-750)*150/250, 255-(score-750)*255/250);
   }
   // setGradient(0, 0, XSIZE,1000, 0, #B2F0FF);
-  image(cloud, XSIZE/6, YSIZE/8);
-  image(cloud, XSIZE/4, YSIZE/6);
-  image(cloud, XSIZE/2, YSIZE/3);
-  image(cloud, XSIZE*2/3, YSIZE/4);
+  image(cloud, cxCor + offsetX1, cyCor + offsetY1);
+  image(cloud, cxCor + offsetX2, cyCor - offsetY2);
+  image(cloud, cxCor - offsetX3, cyCor + offsetY3);
+  image(cloud, cxCor - offsetX4, cyCor - offsetY4);
 
-  image(bird1, XSIZE/3, YSIZE/2);
-  image(bird1, XSIZE/3 + XSIZE/25, YSIZE/2 - 20);
-  image(bird1, XSIZE/3 + XSIZE*2/25, YSIZE/2 - 40);
-  image(bird1, XSIZE/3 - XSIZE/25, YSIZE/2 - 20);
-  image(bird1, XSIZE*4/5, YSIZE*2/5);
+  //  image(bird1, XSIZE/3, YSIZE/2);
+  //  image(bird1, XSIZE/3 + XSIZE/25, YSIZE/2 - 20);
+  //  image(bird1, XSIZE/3 + XSIZE*2/25, YSIZE/2 - 40);
+  //  image(bird1, XSIZE/3 - XSIZE/25, YSIZE/2 - 20);
+  //  image(bird1, XSIZE*4/5, YSIZE*2/5);
+}
+
+void cloudMove() {
+  cyCor += YSIZE/500;
+  if (cxCor>XSIZE || cyCor > YSIZE)
+    setCloudVars();
+}
+
+void setCloudVars() {
+  cxCor = random(XSIZE);
+  cyCor = 0;
+  offsetX1 = random(100,120);
+  offsetX2 = random(80,150);
+  offsetX3 = random(60,150);
+  offsetX4 = random(100,120);
+  offsetY1 = random(200);
+  offsetY2 = random(200);
+  offsetY3 = random(200);
+  offsetY4 = random(200);
 }
 
 // void setGradient(int x, int y, float w, float h, color c1, color c2) {
@@ -437,20 +464,20 @@ void keyPressed() {
 
 void spawnEnemies() {
   if (frameCount%3 == 0) {
-    if (0 <= score && score <= 400) {
+    if (0 <= score && score <= 500) {
       if (random(120) + score/100 > 110) {
         Balloon temp = new Balloon();
         enemies[0].add(temp);
       }
     }
-    if (300 <= score && score <= 800) {
+    if (300 <= score && score <= 900) {
       if (random(124) + score/100> 115) {
         Asteroid temp = new Asteroid();
         enemies[0].add(temp);
       }
     }
-    if (100 <= score && score <= 1000) {
-      if (random(110) + score/100> 110) {
+    if (600 <= score && score <= 1000) {
+      if (random(110) + score/100> 115) {
         Debris temp = new Debris();
         enemies[2].add(temp);
       }
@@ -502,7 +529,7 @@ void checkHits() {
 void checkScore() {
   if (frameCount%4 == 0)
     score++;
-  else if(frameCount % 2 == 0 && random(10) < 1 + 3*sLevel){
+  else if (frameCount % 2 == 0 && random(10) < 1 + 3*sLevel) {
     score ++;
   }
 }
@@ -527,10 +554,9 @@ void enemyDeath() {
 
 void stats() {
   textSize(XSIZE/20);
-  if (score < 750){
+  if (score < 750) {
     fill(50);
-  }
-  else{
+  } else {
     fill(50 + (score-750)*205/255);
   }
   textAlign(RIGHT);
@@ -576,3 +602,4 @@ String[] readFile() throws FileNotFoundException {
   }
   return ret;
 }
+

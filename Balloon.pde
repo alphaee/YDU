@@ -33,8 +33,8 @@ class Balloon implements Enemy {
   }
   
   boolean collide() {
-    return !(player.xCor > xCor+bWidth || player.xCor+player.sWidth < xCor 
-      || player.yCor > yCor+bHeight || player.yCor+player.sHeight < yCor);  
+    return !(player.xCor > xCor+bWidth || player.xCor+YSIZE/4 < xCor 
+      || player.yCor > yCor+bHeight || player.yCor+YSIZE/4 < yCor);  
   }
 
   void move() {

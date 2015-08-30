@@ -45,6 +45,7 @@ int decFuel;
 int invin;
 
 boolean released;
+boolean released1;
 
 boolean start;
 
@@ -147,7 +148,7 @@ void setup() {
   // }
   start = true;
   player.hit = false;
-  state = 1;
+  state = 0;
 }
 
 void setup2() {//RESTART
@@ -234,9 +235,10 @@ void draw() {
     textSize(XSIZE/8);
     text("PROCEED",XSIZE/2, YSIZE*5/6);
     
-    if(mousePressed){
+    if(mousePressed && released1){
       startMillis = millis();
       state = 9;
+      released1 = false;
     }
     break;
   
@@ -497,6 +499,8 @@ void spawnEnemies() {
 }
 
 void mousePressed() {
+  if(state == 1)
+    released1 = true;
   if (state==20)
     released = true;
 }

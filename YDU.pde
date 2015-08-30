@@ -147,7 +147,7 @@ void setup() {
   // }
   start = true;
   player.hit = false;
-  state = 0;
+  state = 1;
 }
 
 void setup2() {//RESTART
@@ -202,11 +202,44 @@ void draw() {
     text("YK, DK, FW", XSIZE/6, YSIZE * 29/30);
     image(meteor, XSIZE/2, YSIZE*7/18);
     if (mousePressed) {
+      if(highscore == 0)
+        state = 1;
+      else{
+        startMillis = millis();
+        state = 9;
+      }
+    }
+    break;
+  
+  case 1: //instructions
+    textAlign(CENTER,CENTER);
+    background(0);
+    textSize(XSIZE/8);
+    text("INSTRUCTIONS",XSIZE/2, YSIZE/10);
+    textSize(XSIZE/20);
+    text("Welcome to NASA's Launch Program!",XSIZE/2, YSIZE/4);
+    text("Unforunately for you, the end of",XSIZE/2, YSIZE/4 + XSIZE/19);
+    text("the world is today - but luckily", XSIZE/2, YSIZE/4 + XSIZE*2/19);
+    text("we were prepared. Your mission is", XSIZE/2, YSIZE/4 + XSIZE*3/19);
+    text("to successfully fly just one", XSIZE/2, YSIZE/4 + XSIZE*4/19);
+    text("spaceship out of the Earth,", XSIZE/2, YSIZE/4 + XSIZE*5/19);
+    text("no matter the cost.", XSIZE/2, YSIZE/4 + XSIZE*6/19);
+    
+    text("Controls are intuitive:simply", XSIZE/2, YSIZE/4 + XSIZE*8/19);
+    text("point to where the spaceship", XSIZE/2, YSIZE/4 + XSIZE*9/19);
+    text("should go and it will follow.", XSIZE/2, YSIZE/4 + XSIZE*10/19);
+    
+    text("Good Luck in your endeavor.", XSIZE/2, YSIZE/4 + XSIZE*12/19);
+    
+    textSize(XSIZE/8);
+    text("PROCEED",XSIZE/2, YSIZE*5/6);
+    
+    if(mousePressed){
       startMillis = millis();
       state = 9;
     }
     break;
-    
+  
   case 9: //pre-game sequence
     buildBackground();
     player.display();

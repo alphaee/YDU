@@ -16,7 +16,7 @@ class Balloon implements Enemy {
   Balloon() {
     xCor = (int)random(XSIZE/10, XSIZE*9/10);
     yCor = -YSIZE/10;
-    val = 20;
+    val = 30;
     bWidth = YSIZE/6*240/600;
     bHeight = YSIZE/6*330/600;
   }
@@ -38,4 +38,3 @@ class Balloon implements Enemy {
     return !(player.xCor > xCor+bWidth || player.xCor+player.sWidth < xCor 
       || player.yCor > yCor+bHeight || player.yCor+player.sHeight < yCor);  }
 }
-

@@ -17,7 +17,7 @@ class Asteroid implements Enemy {
     //    xCor = (int)random(XSIZE/10, XSIZE*9/10);
     xCor = random(XSIZE);
     yCor = -YSIZE/10;
-    val = 30;
+    val = 20;
     //println("hi");
     aWidth = YSIZE/6*210/600;
     aHeight = YSIZE/6*195/600;
@@ -41,4 +41,3 @@ class Asteroid implements Enemy {
     yCor += YSIZE/100;
   }
 }
-

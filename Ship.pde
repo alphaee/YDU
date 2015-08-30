@@ -28,7 +28,20 @@ class Ship{
   
   void display(){
     imageMode(CORNER);
-    if(hit && frameCount%2 == 0){
+    if(hit){
+      if(frameCount%2 ==0){
+        if(dir == 0){
+          image(rocket,xCor,yCor);
+        }
+        else if(dir == 1){
+          image(rocketL,xCor,yCor);
+        }
+        else{
+          image(rocketR,xCor,yCor);
+        }
+      }
+    }
+    else{
       if(dir == 0){
         image(rocket,xCor,yCor);
       }
@@ -38,15 +51,6 @@ class Ship{
       else{
         image(rocketR,xCor,yCor);
       }
-    }
-    if(dir == 0){
-      image(rocket,xCor,yCor);
-    }
-    else if(dir == 1){
-      image(rocketL,xCor,yCor);
-    }
-    else{
-      image(rocketR,xCor,yCor);
     }
   }  
 }

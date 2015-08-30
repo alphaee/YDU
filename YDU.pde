@@ -105,9 +105,6 @@ void setup() {
   bird1 = loadImage("bird1.png");
   bird1.resize(YSIZE/6, YSIZE/10);
 
-  bird2 = loadImage("bird2.png");
-  bird2.resize(YSIZE/6, YSIZE/10);
-
   balloon = loadImage("HotAirBalloon2.png");
   balloon.resize(YSIZE/6, YSIZE/6);
 
@@ -199,6 +196,9 @@ void draw() {
       player.hit = false;
 
     player.display();  
+      
+    stats();
+    
     if(start){
       countdown(startMillis);
     }
@@ -210,8 +210,6 @@ void draw() {
       }
       
       spawnEnemies();
-      
-      stats();
   
       actAll();
   
@@ -306,11 +304,11 @@ void countdown(int t) {
   textAlign(CENTER, CENTER);
   textSize(displayHeight/9);
   if (millis() - t < 1500)
-    text("3", XSIZE/2, YSIZE/2+displayHeight/10);
+    text("3", XSIZE/2, YSIZE/2+displayHeight/8);
   else if (millis() - t < 2500)
-    text("2", XSIZE/2, YSIZE/2+displayHeight/10);
+    text("2", XSIZE/2, YSIZE/2+displayHeight/8);
   else if (millis() - t < 3500)
-    text("1", XSIZE/2, YSIZE/2+displayHeight/10);
+    text("1", XSIZE/2, YSIZE/2+displayHeight/8);
   else
     start = false;
 }
@@ -332,7 +330,7 @@ void buildBackground() {
   image(cloud, XSIZE*2/3, YSIZE/4);
 
   image(bird1, XSIZE/3, YSIZE/2);
-  image(bird2, XSIZE/3 + XSIZE/25, YSIZE/2 - 20);
+  image(bird1, XSIZE/3 + XSIZE/25, YSIZE/2 - 20);
   image(bird1, XSIZE/3 + XSIZE*2/25, YSIZE/2 - 40);
   image(bird1, XSIZE/3 - XSIZE/25, YSIZE/2 - 20);
   image(bird1, XSIZE*4/5, YSIZE*2/5);
@@ -446,8 +444,6 @@ void stats() {
     fill(#EA1509);
   textAlign(LEFT);
   text("Fuel:" + player.fuel/10. + "%", XSIZE/30, YSIZE/20);
-  textAlign(RIGHT);
-  text("Height:" + score/10. + "km", XSIZE*29/30, YSIZE/20);
   }
 
 void updateCoins(){

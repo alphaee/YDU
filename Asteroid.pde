@@ -21,7 +21,7 @@ class Asteroid implements Enemy {
     //println("hi");
     aWidth = YSIZE/6*210/600;
     aHeight = YSIZE/6*195/600;
-    xDirection = (int)(2*random(1) - 1);
+    xDirection = (int)(3*random(1) - 1);
   }
 
   void act() {

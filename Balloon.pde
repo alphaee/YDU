@@ -21,7 +21,6 @@ class Balloon implements Enemy {
     bWidth = YSIZE/6*240/600;
     bHeight = YSIZE/6*330/600;
     xDirection = (int)(3*random(1) - 1);
-    println(xDirection);
   }
 
   void act() {

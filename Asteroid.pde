@@ -14,14 +14,13 @@ class Asteroid implements Enemy {
   }
 
   Asteroid() {
-    //    xCor = (int)random(XSIZE/10, XSIZE*9/10);
+    //xCor = (int)random(XSIZE/10, XSIZE*9/10);
     xCor = random(XSIZE);
     yCor = random(-YSIZE/10,0);
     val = 20;
-    //println("hi");
     aWidth = YSIZE/6*210/600;
     aHeight = YSIZE/6*195/600;
-    xDirection = (int)(3*random(1) - 1);
+    xDirection = (int)(2*random(1) - 1);
   }
 
   void act() {

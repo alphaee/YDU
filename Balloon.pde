@@ -2,6 +2,7 @@ class Balloon implements Enemy {
   float xCor, yCor;
   int val, xDirection;
   float bWidth, bHeight;
+  int imgnum;
 
   float xCor() { 
     return xCor;
@@ -21,6 +22,8 @@ class Balloon implements Enemy {
     bWidth = YSIZE/6*240/600;
     bHeight = YSIZE/6*330/600;
     xDirection = (int)(3*random(1) - 1);
+    if(random(2) < 1)
+      imgnum = 1;
   }
 
   void act() {
@@ -29,7 +32,10 @@ class Balloon implements Enemy {
   }
 
   void display() {
-    image(balloon, xCor, yCor);
+    if(imgnum ==1)
+      image(balloon1, xCor, yCor);
+    else
+      image(balloon0, xCor, yCor);
   }
   
   boolean collide() {

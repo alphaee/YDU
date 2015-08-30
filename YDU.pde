@@ -8,7 +8,7 @@ int state;
 
 Ship player;
 
-ArrayList<Enemy>[] enemies; //0-Balloon, 1-Asteroid
+ArrayList<Enemy>[] enemies; //0-balloon1, 1-Asteroid
 
 int coins;
 int score;
@@ -32,8 +32,8 @@ PImage rocket2L;
 PImage rocket2R;
 PImage coin;
 PImage cloud;
-PImage bird1, bird2;
-PImage balloon;
+PImage bird1;
+PImage balloon0, balloon1;
 PImage asteroid1, asteroid2;
 PImage meteor;
 
@@ -104,9 +104,12 @@ void setup() {
 
   bird1 = loadImage("bird1.png");
   bird1.resize(YSIZE/6, YSIZE/10);
-
-  balloon = loadImage("HotAirBalloon2.png");
-  balloon.resize(YSIZE/6, YSIZE/6);
+  
+  balloon0 = loadImage("HotAirBalloon3.png");
+  balloon0.resize(YSIZE/6,YSIZE/6);
+  
+  balloon1 = loadImage("HotAirBalloon2.png");
+  balloon1.resize(YSIZE/6, YSIZE/6);
 
   asteroid1 = loadImage("Asteroid1.png");
   asteroid1.resize(YSIZE/8, YSIZE/8);
@@ -138,7 +141,7 @@ void setup() {
   }
 
   // for (int j = 0; j < 5; j ++) {
-  //   Balloon temp = new Balloon();
+  //   balloon1 temp = new balloon1();
   //   enemies[0].add(temp);
 
   //   Asteroid temp2 = new Asteroid();
@@ -158,7 +161,7 @@ void setup2() {//RESTART
   }
 
   // for (int j = 0; j < 5; j ++) {
-  //   Balloon temp = new Balloon();
+  //   balloon1 temp = new balloon1();
   //   enemies[0].add(temp);
 
   //   Asteroid temp2 = new Asteroid();

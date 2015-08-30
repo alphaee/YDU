@@ -12,7 +12,7 @@ class Ship{
     sWidth = YSIZE/4*145/600;
     sHeight = YSIZE/4*311/600;
     
-    fuel = 1000;
+    fuel = 100;
     dir = 0;
   }
   

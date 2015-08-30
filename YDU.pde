@@ -36,12 +36,12 @@ PrintWriter output;
 
 void setup() {
   orientation(PORTRAIT);
-   XSIZE = displayWidth;
-   YSIZE = displayHeight;
-   size(displayWidth, displayHeight);
-//  XSIZE = 400; //comment this when using on android
-//  YSIZE = 700;
-//  size(XSIZE, YSIZE);
+   // XSIZE = displayWidth;
+   // YSIZE = displayHeight;
+   // size(displayWidth, displayHeight);
+   XSIZE = 400; //comment this when using on android
+   YSIZE = 600;
+   size(XSIZE, YSIZE);
   frameRate(45);
 
   player = new Ship();
@@ -68,7 +68,7 @@ void setup() {
   cloud = loadImage("cloud.png");
   cloud.resize(YSIZE/10, YSIZE/10);
 
-  bird1 = loadImage("bird1.png");
+  bird1 = loadImage("Bird1.png");
   bird1.resize(YSIZE/6, YSIZE/10);
 
   bird2 = loadImage("Bird2.png");
@@ -217,6 +217,20 @@ void keyPressed() {
 }
 
 void spawnEnemies(){
+  if(frameCount%3 == 0){
+    if (0 <= score && score <= 400){
+      if(random(120) + score/100 > 110){
+        Balloon temp = new Balloon();
+        enemies[0].add(temp);
+      }
+    }
+    if (300 <= score && score <= 800){
+      if(random(124) + score/100> 115){
+        Asteroid temp = new Asteroid();
+        enemies[0].add(temp);
+      }
+    }
+  }
 }
 
 void mousePressed() {

@@ -16,7 +16,7 @@ class Asteroid implements Enemy {
   Asteroid() {
     //    xCor = (int)random(XSIZE/10, XSIZE*9/10);
     xCor = random(XSIZE);
-    yCor = -YSIZE/10;
+    yCor = random(-YSIZE/10,0);
     val = 20;
     //println("hi");
     aWidth = YSIZE/6*210/600;
@@ -49,7 +49,7 @@ class Asteroid implements Enemy {
   }
   
   boolean inBounds(){
-    if(xCor > -XSIZE/10 && xCor < 11*XSIZE/10 && yCor < YSIZE*11/10)
+    if(xCor > -XSIZE/10 && xCor < 11*XSIZE/10 && yCor < YSIZE*11/10) //guessed
       return true;
     return false;
   }

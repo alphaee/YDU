@@ -14,8 +14,9 @@ class Balloon implements Enemy {
   }
 
   Balloon() {
-    xCor = (int)random(XSIZE/10, XSIZE*9/10);
-    yCor = -YSIZE/10;
+    // xCor = (int)random(XSIZE/10, XSIZE*9/10);
+    xCor = random(XSIZE);
+    yCor = random(-YSIZE/10,0);
     val = 30;
     bWidth = YSIZE/6*240/600;
     bHeight = YSIZE/6*330/600;

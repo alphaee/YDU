@@ -138,7 +138,9 @@ void draw() {
     } else {
       player.dir = 0;
     }
-
+    
+    spawnEnemies();
+    
     stats();
 
     actAll();
@@ -179,7 +181,7 @@ void draw() {
 }
 
 void buildBackground() {
-  background(#B2F0FF);
+  background(178-score*178/1000, 240-score*240/1000, 255-score*255/1000);
   image(cloud, XSIZE/6, YSIZE/8);
   image(cloud, XSIZE/4, YSIZE/6);
   image(cloud, XSIZE/2, YSIZE/3);
@@ -197,6 +199,10 @@ void keyPressed() {
     player.right();
   if (keyCode == LEFT)
     player.left();
+}
+
+void spawnEnemies(){
+  
 }
 
 void detect() {

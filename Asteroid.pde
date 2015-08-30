@@ -49,7 +49,7 @@ class Asteroid implements Enemy {
   }
   
   boolean inBounds(){
-    if(xCor > -XSIZE/10 && xCor < 11*XSIZE/10 && yCor < YSIZE*11/10) //guessed
+    if(xCor + YSIZE/8 - player.sWidth/2 > 0 && xCor + YSIZE/8 + player.sWidth/2 < XSIZE && yCor + YSIZE/8 - player.sHeight/2 < YSIZE)
       return true;
     return false;
   }

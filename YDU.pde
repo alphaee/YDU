@@ -180,7 +180,7 @@ void draw() {
     fill(255);
     textSize(XSIZE/9);
     textAlign(CENTER, CENTER);
-    text("TO INFINItY...", XSIZE/2, YSIZE/10); 
+    text("TO INFINITY...", XSIZE/2, YSIZE/10); 
     textSize(XSIZE/7);
     text("LAUNCH!", XSIZE/2, YSIZE*5/6);
     imageMode(CENTER);

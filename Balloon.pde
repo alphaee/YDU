@@ -48,7 +48,7 @@ class Balloon implements Enemy {
   }
   
   boolean inBounds(){
-    if(xCor + YSIZE/12 - bWidth/2 > 0 && xCor + YSIZE/12 + bWidth/2 < XSIZE && yCor + YSIZE/12 - bHeight/2 < YSIZE)
+    if(xCor + YSIZE/12 + bWidth/2 > 0 && xCor + YSIZE/12 - bWidth/2 < XSIZE && yCor + YSIZE/12 - bHeight/2 < YSIZE)
       return true;
     return false;
   }

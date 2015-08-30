@@ -14,13 +14,14 @@ class Asteroid implements Enemy {
   }
 
   Asteroid() {
-    //xCor = (int)random(XSIZE/10, XSIZE*9/10);
+    //    xCor = (int)random(XSIZE/10, XSIZE*9/10);
     xCor = random(XSIZE);
     yCor = random(-YSIZE/10,0);
     val = 20;
+    //println("hi");
     aWidth = YSIZE/6*210/600;
     aHeight = YSIZE/6*195/600;
-    xDirection = (int)(2*random(1) - 1);
+    xDirection = (int)(3*random(1) - 1);
   }
 
   void act() {
@@ -48,7 +49,7 @@ class Asteroid implements Enemy {
   }
   
   boolean inBounds(){
-    if(xCor + YSIZE/12 - aWidth/2 > 0 && xCor + YSIZE/12 + aWidth/2 < XSIZE && yCor + YSIZE/12 - aHeight/2 < YSIZE)
+    if(xCor + YSIZE/12 + aWidth/2 > 0 && xCor + YSIZE/12 - aWidth/2 < XSIZE && yCor + YSIZE/12 - aHeight/2 < YSIZE)
       return true;
     return false;
   }

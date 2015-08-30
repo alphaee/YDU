@@ -33,12 +33,13 @@ int invin;
 PrintWriter output;
 
 void setup() {
-  //orientation(PORTRAIT);
-  //XSIZE = displayWidth;
-  //YSIZE = displayHeight;
-  XSIZE = 400; //comment this when using on android
-  YSIZE = 700;
-  size(XSIZE, YSIZE);
+  orientation(PORTRAIT);
+  XSIZE = displayWidth;
+  YSIZE = displayHeight;
+  size(displayWidth, displayHeight);
+  // XSIZE = 400; //comment this when using on android
+  // YSIZE = 700;
+  // size(XSIZE, YSIZE);
   frameRate(45);
 
   player = new Ship();

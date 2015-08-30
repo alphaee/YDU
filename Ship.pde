@@ -7,7 +7,7 @@ class Ship{
   
   Ship(){
     xCor = XSIZE/2;
-    yCor = YSIZE*6/7;
+    yCor = YSIZE*4/5;
     
     sWidth = YSIZE/4*145/600;
     sHeight = YSIZE/4*311/600;

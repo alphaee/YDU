@@ -1,6 +1,6 @@
 class Asteroid implements Enemy {
   float xCor, yCor;
-  int val;
+  int val, xDirection;
   float aWidth, aHeight;
 
   float xCor() { 
@@ -21,6 +21,7 @@ class Asteroid implements Enemy {
     //println("hi");
     aWidth = YSIZE/6*210/600;
     aHeight = YSIZE/6*195/600;
+    xDirection = (int)(2*random(1) - 1);
   }
 
   void act() {
@@ -39,5 +40,17 @@ class Asteroid implements Enemy {
 
   void move() {
     yCor += YSIZE/100;
+    if (xDirection == 0){
+      xCor += XSIZE/450;
+    }
+    else{
+      xCor -= XSIZE/450;
+    }
+  }
+  
+  boolean inBounds(){
+    if(xCor > -XSIZE/10 && xCor < 11*XSIZE/10 && yCor < YSIZE*11/10)
+      return true;
+    return false;
   }
 }

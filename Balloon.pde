@@ -1,6 +1,6 @@
 class Balloon implements Enemy {
   float xCor, yCor;
-  int val;
+  int val, xDirection;
   float bWidth, bHeight;
 
   float xCor() { 
@@ -19,6 +19,7 @@ class Balloon implements Enemy {
     val = 30;
     bWidth = YSIZE/6*240/600;
     bHeight = YSIZE/6*330/600;
+    xDirection = (int)(2*random(1) - 1);
   }
 
   void act() {
@@ -29,12 +30,25 @@ class Balloon implements Enemy {
   void display() {
     image(balloon, xCor, yCor);
   }
-
-  void move() {
-    yCor += YSIZE/100;
-  }
-
+  
   boolean collide() {
     return !(player.xCor > xCor+bWidth || player.xCor+player.sWidth < xCor 
-      || player.yCor > yCor+bHeight || player.yCor+player.sHeight < yCor);  }
+      || player.yCor > yCor+bHeight || player.yCor+player.sHeight < yCor);  
+  }
+
+  void move() {
+    yCor += YSIZE/200;
+    if (xDirection == 0){
+      xCor += XSIZE/450;
+    }
+    else{
+      xCor -= XSIZE/450;
+    }
+  }
+  
+  boolean inBounds(){
+    if(xCor > -XSIZE/10 && xCor < 11*XSIZE/10 && yCor < YSIZE*11/10)
+      return true;
+    return false;
+  }
 }

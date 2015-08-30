@@ -34,12 +34,12 @@ PrintWriter output;
 
 void setup() {
   orientation(PORTRAIT);
-  XSIZE = displayWidth;
-  YSIZE = displayHeight;
-  size(displayWidth, displayHeight);
-  // XSIZE = 400; //comment this when using on android
-  // YSIZE = 700;
-  // size(XSIZE, YSIZE);
+  // XSIZE = displayWidth;
+  // YSIZE = displayHeight;
+  // size(displayWidth, displayHeight);
+  XSIZE = 400; //comment this when using on android
+  YSIZE = 700;
+  size(XSIZE, YSIZE);
   frameRate(45);
 
   player = new Ship();
@@ -147,6 +147,8 @@ void draw() {
     
     decFuel();
     
+    enemyDeath();
+    
     checkScore();
     checkDeath();
     break;
@@ -243,6 +245,14 @@ void checkDeath() {
     writeFile();
     state = 20;
   }
+}
+
+void enemyDeath(){
+  for (int i = 0; i < enemies.length; i++)
+      for (int k = 0; k < enemies[i].size(); k++)
+        if (!enemies[i].get(k).inBounds()) {
+          enemies[i].remove(k);
+        }
 }
 
 void stats() {

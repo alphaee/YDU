@@ -22,6 +22,7 @@ PImage cloud;
 PImage bird1, bird2;
 PImage balloon;
 PImage asteroid1, asteroid2;
+PImage meteor;
 
 PFont font;
 
@@ -78,6 +79,8 @@ void setup() {
 
   asteroid2 = loadImage("Asteroid2.png");
   asteroid2.resize(YSIZE/6, YSIZE/6);
+  meteor = loadImage("Meteor.png");
+  meteor.resize(YSIZE/2,YSIZE/2);
 
   for (int i = 0; i < enemies.length; i ++) {
     enemies[i] = new ArrayList<Enemy>();
@@ -90,6 +93,7 @@ void setup() {
     Asteroid temp2 = new Asteroid();
     enemies[1].add(temp2);
   }
+  state = 20;
 }
 
 void setup2() {//RESTART
@@ -120,7 +124,9 @@ void draw() {
     textAlign(CENTER, CENTER);
     text("To Infinity...", XSIZE/2, YSIZE/10); 
     textSize(XSIZE/7);
-    text("START", XSIZE/2, YSIZE*3/4);
+    text("START", XSIZE/2, YSIZE*5/6);
+    imageMode(CENTER);
+    image(meteor, XSIZE/2, YSIZE/3);
     if (mousePressed) {
       state = 10;
     }
@@ -165,11 +171,11 @@ void draw() {
     text("Your Distance:" + score/10. + "km", YSIZE/30, YSIZE/11 + YSIZE/12);
     imageMode(CENTER);
     image(coin, YSIZE/22, YSIZE/7 + YSIZE/11);
-    text(":" + coins, YSIZE/17, YSIZE/7 + YSIZE*2/20 + 3);
-    textSize(XSIZE/10);
+    text(":" + coins, YSIZE/17, YSIZE/7 + YSIZE*2/20 - 6);
+    textSize(XSIZE/8);
     textAlign(CENTER, CENTER);
     stroke(255);
-    text("RETRY", XSIZE/2, YSIZE*3/4);
+    text("RETRY", XSIZE/2, YSIZE*5/6);
     if (mousePressed) {
       if (mouseY > YSIZE*2/3) {
         setup2();
@@ -286,4 +292,3 @@ String[] readFile() throws FileNotFoundException {
   }
   return ret;
 }
-

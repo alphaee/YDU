@@ -146,7 +146,7 @@ void setup() {
   //   enemies[1].add(temp2);
   // }
   start = true;
-  state = 9;
+  state = 0;
 }
 
 void setup2() {//RESTART

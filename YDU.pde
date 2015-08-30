@@ -150,7 +150,8 @@ void setup() {
 }
 
 void setup2() {//RESTART
-  player.fuel = 1000;
+  // player.fuel = 1000;
+  player = new Ship();
   score = 0;
 
   for (int i = 0; i < enemies.length; i ++) {
@@ -471,7 +472,7 @@ void checkHits() {
       for (Enemy e : enemies[i])
         if (e.collide()) {
           decFuel += e.val();
-          invin = millis() + 1000;
+          invin = millis() + 200;
           player.hit = true;
         }
   }

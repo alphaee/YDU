@@ -53,6 +53,7 @@ int decFuel;
 int invin;
 
 boolean released;
+boolean released1;
 
 boolean start;
 
@@ -239,8 +240,42 @@ void draw() {
     text("YK, DK, FW", XSIZE/6, YSIZE * 29/30);
     image(meteor, XSIZE/2, YSIZE*7/18);
     if (mousePressed) {
+      if(highscore == 0)
+        state = 1;
+      else{
+        startMillis = millis();
+        state = 9;
+      }
+    }
+    break;
+  
+  case 1: //instructions
+    textAlign(CENTER,CENTER);
+    background(0);
+    textSize(XSIZE/8);
+    text("INSTRUCTIONS",XSIZE/2, YSIZE/10);
+    textSize(XSIZE/20);
+    text("Welcome to NASA's Launch Program!",XSIZE/2, YSIZE/4);
+    text("Unforunately for you, the end of",XSIZE/2, YSIZE/4 + XSIZE/19);
+    text("the world is today - but luckily", XSIZE/2, YSIZE/4 + XSIZE*2/19);
+    text("we were prepared. Your mission is", XSIZE/2, YSIZE/4 + XSIZE*3/19);
+    text("to successfully fly just one", XSIZE/2, YSIZE/4 + XSIZE*4/19);
+    text("spaceship out of the Earth,", XSIZE/2, YSIZE/4 + XSIZE*5/19);
+    text("no matter the cost.", XSIZE/2, YSIZE/4 + XSIZE*6/19);
+    
+    text("Controls are intuitive:simply", XSIZE/2, YSIZE/4 + XSIZE*8/19);
+    text("point to where the spaceship", XSIZE/2, YSIZE/4 + XSIZE*9/19);
+    text("should go and it will follow.", XSIZE/2, YSIZE/4 + XSIZE*10/19);
+    
+    text("Good Luck in your endeavor.", XSIZE/2, YSIZE/4 + XSIZE*12/19);
+    
+    textSize(XSIZE/8);
+    text("PROCEED",XSIZE/2, YSIZE*5/6);
+    
+    if(mousePressed && released1){
       startMillis = millis();
       state = 9;
+      released1 = false;
     }
     break;
 
@@ -347,7 +382,12 @@ void draw() {
     textAlign(CENTER, CENTER);
     stroke(255);
     text("RELAUNCH", XSIZE/2, YSIZE*6/7 - YSIZE/30);
-
+    
+    textSize(XSIZE/25);
+    textAlign(LEFT,CENTER);
+    text("(Increases Fuel Capacity)", YSIZE/20, YSIZE/4 + YSIZE/6);
+    text("(Decreases Fuel Loss)", YSIZE/20, YSIZE/2 + YSIZE/7);
+    
     textSize(XSIZE/20);
 
     PImage progress;
@@ -522,6 +562,8 @@ void spawnEnemies() {
 }
 
 void mousePressed() {
+  if(state == 1)
+    released1 = true;
   if (state==20)
     released = true;
 }
@@ -634,6 +676,8 @@ void parseData() {
     data = readFile();
     coins = Integer.parseInt(data[0]);
     highscore = Integer.parseInt(data[1]);
+    sLevel = Integer.parseInt(data[2]);
+    hLevel = Integer.parseInt(data[3]);
   }
   catch(Exception e) {
   }
@@ -643,16 +687,20 @@ void writeFile() {
   output = createWriter("data.txt");
   output.println(coins);
   output.println(highscore);
+  output.println(sLevel);
+  output.println(hLevel);
   output.flush();
   output.close();
 }
 
 String[] readFile() throws FileNotFoundException {
   BufferedReader reader = createReader("data.txt");
-  String[] ret = new String[2];
+  String[] ret = new String[4];
   try {
     ret[0] = reader.readLine();
     ret[1] = reader.readLine();
+    ret[2] = reader.readLine();
+    ret[3] = reader.readLine();
     reader.close();
   }
   catch(Exception e) {

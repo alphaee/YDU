@@ -146,7 +146,8 @@ void setup() {
   //   enemies[1].add(temp2);
   // }
   start = true;
-  state = 9;
+  player.hit = false;
+  state = 0;
 }
 
 void setup2() {//RESTART
@@ -166,6 +167,7 @@ void setup2() {//RESTART
   // }
 
   state = 9;
+  player.hit = false;
   start = true;
   startMillis = millis();
 }
@@ -205,6 +207,10 @@ void draw() {
     tower.resize(XSIZE/4 + XSIZE/9,YSIZE/4 + YSIZE/20);
     imageMode(CENTER);
     image(tower,XSIZE/2 - XSIZE/10,YSIZE*8/9 - YSIZE/25);
+    
+    PImage logo = loadImage("logo.png");
+    logo.resize(XSIZE/4,XSIZE/4);
+    image(logo, XSIZE/6, YSIZE*3/4 + YSIZE/20);
     
     player.yCor = YSIZE - YSIZE*(millis()-startMillis)/1700;
     if(millis() - startMillis > 2050){

@@ -68,10 +68,10 @@ void setup() {
   cloud = loadImage("cloud.png");
   cloud.resize(YSIZE/10, YSIZE/10);
 
-  bird1 = loadImage("Bird1.png");
+  bird1 = loadImage("bird1.png");
   bird1.resize(YSIZE/6, YSIZE/10);
 
-  bird2 = loadImage("Bird2.png");
+  bird2 = loadImage("bird2.png");
   bird2.resize(YSIZE/6, YSIZE/10);
 
   balloon = loadImage("HotAirBalloon2.png");
@@ -239,12 +239,15 @@ void mousePressed() {
 }
 
 void detect() {
-  if (mouseX < XSIZE/2) {
-    player.dir = 2;
-    player.left();
-  } else {  
-    player.dir = 1;
-    player.right();
+  if(abs(mouseX - (player.xCor + YSIZE/8)) > 5){
+    if (mouseX < player.xCor + YSIZE/8) {
+      player.dir = 2;
+      player.left();
+    } 
+    else{  
+      player.dir = 1;
+      player.right();
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 class Asteroid implements Enemy {
   float xCor, yCor;
   int val;
-  int bVal, lrVal;
+  float aWidth, aHeight;
 
   float xCor() { 
     return xCor;
@@ -13,12 +13,14 @@ class Asteroid implements Enemy {
     return val;
   }
 
-   Asteroid() {
+  Asteroid() {
     //    xCor = (int)random(XSIZE/10, XSIZE*9/10);
     xCor = random(XSIZE);
     yCor = -YSIZE/10;
-    val = 3;
-    println("hi");
+    val = 30;
+    //println("hi");
+    aWidth = YSIZE/6*210/600;
+    aHeight = YSIZE/6*195/600;
   }
 
   void act() {
@@ -31,7 +33,8 @@ class Asteroid implements Enemy {
   }
 
   boolean collide() {
-    return true;
+    return !(player.xCor > xCor+aWidth || player.xCor+player.sWidth < xCor 
+      || player.yCor > yCor+aHeight || player.yCor+player.sHeight < yCor);
   }
 
   void move() {

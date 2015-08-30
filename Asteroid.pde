@@ -1,27 +1,41 @@
-class Asteroid implements Enemy{
-  int xCor, yCor;
+class Asteroid implements Enemy {
+  float xCor, yCor;
   int val;
   int bVal, lrVal;
-  
-  int xCor(){ return xCor; }
-  int yCor(){ return yCor; }
-  int val(){ return val; }
-  
-  void Asteroid(){
-    xCor = (int)random(XSIZE/10, XSIZE*9/10);
+
+  float xCor() { 
+    return xCor;
+  }
+  float yCor() { 
+    return yCor;
+  }
+  int val() { 
+    return val;
+  }
+
+   Asteroid() {
+    //    xCor = (int)random(XSIZE/10, XSIZE*9/10);
+    xCor = random(XSIZE);
     yCor = -YSIZE/10;
     val = 3;
+    println("hi");
   }
-  
-  void display(){
+
+  void act() {
+    display();
+    move();
+  }
+
+  void display() {
     image(asteroid1, xCor, yCor);
   }
-  
-  boolean collide(){
+
+  boolean collide() {
     return true;
   }
-  
-  void move(){
+
+  void move() {
     yCor += YSIZE/100;
   }
 }
+

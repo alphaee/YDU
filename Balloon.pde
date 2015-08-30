@@ -1,27 +1,39 @@
-class Balloon implements Enemy{
-  int xCor, yCor;
+class Balloon implements Enemy {
+  float xCor, yCor;
   int val;
   int bVal, lrVal;
-  
-  int xCor(){ return xCor; }
-  int yCor(){ return yCor; }
-  int val(){ return val; }
 
-  void Balloon(){
+  float xCor() { 
+    return xCor;
+  }
+  float yCor() { 
+    return yCor;
+  }
+  int val() { 
+    return val;
+  }
+
+  Balloon() {
     xCor = (int)random(XSIZE/10, XSIZE*9/10);
     yCor = -YSIZE/10;
     val = 2;
   }
-  
-  void display(){
+
+  void act() {
+    display();
+    move();
+  }
+
+  void display() {
     image(balloon, xCor, yCor);
   }
-  
-  void move(){
+
+  void move() {
     yCor += YSIZE/100;
   }
-  
-  boolean collide(){
+
+  boolean collide() {
     return true;
   }
 }
+

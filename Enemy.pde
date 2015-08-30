@@ -1,9 +1,11 @@
 interface Enemy {  
-  int xCor();
-  int yCor();
+  float xCor();
+  float yCor();
   int val();
 
   void display();
+  
+  void act();
   
   boolean collide();
   

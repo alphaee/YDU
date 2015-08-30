@@ -147,7 +147,7 @@ void setup() {
   // }
   start = true;
   player.hit = false;
-  state = 0;
+  state = 20;
 }
 
 void setup2() {//RESTART
@@ -166,20 +166,6 @@ void setup2() {//RESTART
   //   Asteroid temp2 = new Asteroid();
   //   enemies[0].add(temp2);
   // }
-  
-  if (sLevel == 0) {
-    rocket = rocket0;
-    rocketL = rocket0L;
-    rocketR = rocket0R;
-  } else if (sLevel == 1) {
-    rocket = rocket1;
-    rocketL = rocket1L;
-    rocketR = rocket1R;
-  } else {
-    rocket = rocket2;
-    rocketL = rocket2L;
-    rocketR = rocket2R;
-  }
 
   state = 9;
   player.hit = false;
@@ -302,7 +288,12 @@ void draw() {
     textAlign(CENTER, CENTER);
     stroke(255);
     text("RELAUNCH", XSIZE/2, YSIZE*6/7 - YSIZE/30);
-
+    
+    textSize(XSIZE/25);
+    textAlign(LEFT,CENTER);
+    text("(Increases Fuel Capacity)", YSIZE/20, YSIZE/4 + YSIZE/6);
+    text("(Decreases Fuel Loss)", YSIZE/20, YSIZE/2 + YSIZE/7);
+    
     textSize(XSIZE/20);
 
     PImage progress;

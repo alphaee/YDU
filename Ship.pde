@@ -18,12 +18,12 @@ class Ship{
   
   void left(){
     if(xCor + YSIZE/8-sWidth/2 > XSIZE/100)
-      xCor -= XSIZE/100;
+      xCor = xCor - XSIZE/100 - XSIZE/200*(sLevel/2);
   }
   
   void right(){
     if(xCor + YSIZE/8+sWidth/2 + XSIZE/100 < XSIZE)
-      xCor += XSIZE/100;
+      xCor = xCor + XSIZE/100 + XSIZE/200*(sLevel/2);
   }
   
   void display(){

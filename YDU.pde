@@ -67,7 +67,6 @@ void setup() {
 
   font = loadFont("VCROSDMono-200.vlw");
   textFont(font);
-
   
   rocket0 = loadImage("shuttle-middle-flame.png");
   rocket0.resize(YSIZE/4, YSIZE/4);
@@ -114,9 +113,6 @@ void setup() {
   asteroid1 = loadImage("Asteroid1.png");
   asteroid1.resize(YSIZE/8, YSIZE/8);
 
-  asteroid2 = loadImage("Asteroid2.png");
-  asteroid2.resize(YSIZE/8, YSIZE/8);
-
   meteor = loadImage("Meteor.png");
   meteor.resize(YSIZE/2, YSIZE/2);
 
@@ -148,8 +144,7 @@ void setup() {
   //   enemies[1].add(temp2);
   // }
   start = true;
-  startMillis = millis();
-  state = 10;
+  state = 20;
 }
 
 void setup2() {//RESTART
@@ -182,10 +177,13 @@ void draw() {
     textAlign(CENTER, CENTER);
     text("To Infinity...", XSIZE/2, YSIZE/10); 
     textSize(XSIZE/7);
-    text("START", XSIZE/2, YSIZE*5/6);
+    text("LAUNCH", XSIZE/2, YSIZE*5/6);
     imageMode(CENTER);
+    textSize(YSIZE/40);
+    text("YK, DK, FW", XSIZE/6, YSIZE * 29/30);
     image(meteor, XSIZE/2, YSIZE*7/18);
     if (mousePressed) {
+      startMillis = millis();
       state = 10;
     }
     break;
@@ -206,6 +204,13 @@ void draw() {
       countdown(startMillis);
     }
     else{
+      if(millis() - startMillis < 4500){
+        fill(180);
+        textAlign(CENTER, CENTER);
+        textSize(displayHeight/9);
+        text("GO!", XSIZE/2, YSIZE/2+displayHeight/8);
+      }
+        
       if (mousePressed) {
         detect();
       } else {
@@ -243,47 +248,68 @@ void draw() {
     textSize(XSIZE/10);
     textAlign(CENTER, CENTER);
     stroke(255);
-    text("RETRY", XSIZE/2, YSIZE*6/7);
+    text("RELAUNCH", XSIZE/2, YSIZE*6/7);
 
     textSize(XSIZE/20);
-    textAlign(LEFT,CENTER);
     
     PImage progress;
-    
+    textAlign(LEFT,CENTER);
     if(sLevel == 0){
       text("Thruster Upgrade: 1000", YSIZE/30, YSIZE/4 + YSIZE/30);
+      textAlign(RIGHT,CENTER);
+      if(coins > 1000)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/12);
       progress = loadImage("progress-bar-1.png");
     }
     else if(sLevel == 1){
       text("Thruster Upgrade: 2000", YSIZE/30, YSIZE/4 + YSIZE/30);
+      textAlign(RIGHT,CENTER);
+      if(coins > 2000)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/12);
       progress = loadImage("progress-bar-2.png");
     }
     else{
       text("Thruster Upgrade: 3000", YSIZE/30, YSIZE/4 + YSIZE/30);
+      textAlign(RIGHT,CENTER);
+      text("SOLD OUT", XSIZE - XSIZE/20, YSIZE/4 + YSIZE/12);
       progress = loadImage("progress-bar-3.png");
     }
     progress.resize(XSIZE*3/5, YSIZE/5);
     
     PImage hull;
-    
+    textAlign(LEFT,CENTER);
     if(hLevel == 0){
       text("Hull Upgrade: 500", YSIZE/30, YSIZE/4 + YSIZE/6);
+      textAlign(RIGHT,CENTER);
+      if(coins > 500)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/12);
       hull = loadImage("hull-bar-1.png");
     }
     else if(hLevel == 1){
       text("Hull Upgrade: 1500", YSIZE/30, YSIZE/4 + YSIZE/6);
+      textAlign(RIGHT,CENTER);
+      if(coins > 2000)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/12);
       hull = loadImage("hull-bar-2.png");
     }
     else if(hLevel == 2){
       text("Hull Upgrade: 2250", YSIZE/30, YSIZE/4 + YSIZE/6);
+      textAlign(RIGHT,CENTER);
+      if(coins > 2250)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/12);
       hull = loadImage("hull-bar-3.png");
     }
     else if(hLevel == 3){
       text("Hull Upgrade: 3000", YSIZE/30, YSIZE/4 + YSIZE/6);
+      textAlign(RIGHT,CENTER);
+      if(coins > 3000)
+        text("BUY", XSIZE - XSIZE/10, YSIZE/4 + YSIZE/6 + YSIZE/12);
       hull = loadImage("hull-bar-4.png");
     }
     else{
       text("Hull Upgrade: 3500", YSIZE/30, YSIZE/4 + YSIZE/6);
+      textAlign(RIGHT,CENTER);
+      text("SOLD OUT", XSIZE - XSIZE/20, YSIZE/4 + YSIZE/6);
       hull = loadImage("hull-bar-5.png");
     }
     hull.resize(XSIZE*3/5, YSIZE/5);
@@ -393,7 +419,7 @@ void mousePressed() {
 
 void decFuel() {
   player.fuel -= decFuel;
-  if (frameCount%2 == 0 && random(10) < 8)
+  if (frameCount%2 == 0 && random(10) < (8 + 0.55*sLevel))
     player.fuel -= 1;
 }
 
@@ -416,7 +442,7 @@ void checkHits() {
 }
 
 void checkScore() {
-  if (frameCount%4 == 0)
+  if (frameCount%4 == 0 && random(10) < (9 + 0.5*sLevel))
     score++;
 }
 

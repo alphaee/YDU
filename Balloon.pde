@@ -11,7 +11,7 @@ class Balloon implements Enemy {
     return yCor;
   }
   int val() { 
-    return val;
+    return val - 2*hLevel;
   }
 
   Balloon() {

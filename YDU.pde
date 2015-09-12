@@ -19,6 +19,7 @@ int hLevel;
 int startMillis;
 
 float cxCor, cyCor;
+float sxCor, syCor;
 float offsetX1, offsetX2, offsetX3, offsetX4;
 float offsetY1, offsetY2, offsetY3, offsetY4;
 
@@ -54,6 +55,7 @@ int invin;
 
 boolean released;
 boolean released1;
+boolean released2;
 
 boolean start;
 
@@ -143,7 +145,7 @@ void setup() {
 
   meteor = loadImage("Meteor.png");
   meteor.resize(YSIZE/2, YSIZE/2);
-
+  
   debris = loadImage("satellite-2.png");
   debris.resize(YSIZE/8, YSIZE/8);
 
@@ -177,7 +179,7 @@ void setup() {
   // }
 
   dead = false;
-
+  
   start = true;
   player.hit = false;
   state = 0;
@@ -317,7 +319,6 @@ void draw() {
   case 10: //main game
     buildBackground();
 
-
     decFuel = 0;
 
     if (player.hit && invin < millis())
@@ -357,10 +358,16 @@ void draw() {
 
       checkScore();
       checkDeath();
+      
     }
+    
+    if(score >= 1031){
+      state = 29;
+    }
+    
     break;
 
-  case 11:
+  case 11: //dying
     buildBackground();
     dying();
     break;
@@ -464,6 +471,35 @@ void draw() {
     }
 
     break;
+    
+  case 29: //ending sequence
+    background(0);
+    ending();
+    
+    break;
+    
+  case 30: //credits
+    textAlign(CENTER,CENTER);
+    background(0);
+    fill(255);
+    textSize(XSIZE/8);
+    text("SUCCESS!",XSIZE/2, YSIZE/5);
+    textSize(XSIZE/10);
+    text("CREDITS", XSIZE/2, YSIZE/4 + XSIZE*4/19);
+    textSize(XSIZE/20);
+    text("Young Kim", XSIZE/2, YSIZE/4 + XSIZE*8/19);
+    text("Dan Kim", XSIZE/2, YSIZE/4 + XSIZE*9/19);
+    text("Franklin Wang", XSIZE/2, YSIZE/4 + XSIZE*10/19);
+    
+    textSize(XSIZE/13);
+    text("THANKS FOR PLAYING",XSIZE/2, YSIZE*5/6);
+    
+    if(mousePressed && released2){
+      startMillis = millis();
+      state = 0;
+      released2 = false;
+    }
+    break;
   }
 }
 
@@ -566,6 +602,8 @@ void mousePressed() {
     released1 = true;
   if (state==20)
     released = true;
+  if(state == 30)
+    released2 = true;
 }
 
 void detect() {
@@ -670,6 +708,18 @@ void updateCoins() {
   coins += score;
 }
 
+void ending(){
+  player.goUpEnd();
+  if(player.yCor < -YSIZE/5){
+    state = 30;
+    coins = 0;
+    highscore = 0;
+    sLevel = 0;
+    hLevel = 0;
+    writeFile();
+  }
+}
+
 void parseData() {
   String[] data;
   try {
@@ -707,4 +757,3 @@ String[] readFile() throws FileNotFoundException {
   }
   return ret;
 }
-

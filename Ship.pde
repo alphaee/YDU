@@ -58,5 +58,9 @@ class Ship {
     //    popMatrix();
     yCor+=YSIZE/200;
   }
+  
+  void goUpEnd(){
+    image(rocketN, player.xCor, player.yCor);
+    yCor -= YSIZE/500;
+  }
 }
-
